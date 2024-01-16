@@ -8,5 +8,6 @@ import lombok.Getter;
 public class PostUserResponse {
 
     private long userId;
+    private long dateCountId;
 
 }

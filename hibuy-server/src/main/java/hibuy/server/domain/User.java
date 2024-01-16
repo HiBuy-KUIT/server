@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -38,9 +39,6 @@ public class User {
     @LastModifiedDate
     @Column(name = "updated_at")
     private Timestamp updatedAt;
-
-    public User() {
-    }
 
     public User(String name, String email, String phoneNumber) {
         this.name = name;
