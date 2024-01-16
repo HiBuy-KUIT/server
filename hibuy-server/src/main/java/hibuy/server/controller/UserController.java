@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping
     public BaseResponse<PostUserResponse> adduser(@RequestBody PostUserRequest postUserRequest) {
 
-        log.info("[UserController.addUser]");
+        log.debug("[UserController.addUser]");
 
         return new BaseResponse<>(userService.addUser(postUserRequest));
     }
