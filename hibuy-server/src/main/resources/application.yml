@@ -1,0 +1,17 @@
+spring:
+    datasource:
+        url: ${DATASOURCE_URL}
+        username: ${DATASOURCE_USERNAME}
+        password: ${DATASOURCE_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+    jpa:
+        open-in-view: true
+        properties:
+            hibernate:
+                show_sql: true
+                format_sql: true
+                default_batch_fetch_size: 100
+
+logging:
+    org.hibernate.SQL: debug
