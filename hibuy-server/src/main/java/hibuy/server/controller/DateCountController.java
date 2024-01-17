@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("users/{userId}/count")
+@RequestMapping("/users/{userId}/count")
 @RequiredArgsConstructor
 public class DateCountController {
 
