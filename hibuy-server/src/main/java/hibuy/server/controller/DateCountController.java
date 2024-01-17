@@ -17,13 +17,13 @@ public class DateCountController {
 
     @GetMapping()
     private BaseResponse<GetDateCountResponse> getUserDateCount(@PathVariable Long userId) {
-        log.debug("DateCountController.getDateCount");
+        log.debug("[DateCountController.getDateCount]");
         return new BaseResponse<>(dateCountService.getUserDateCount(userId));
     }
 
     @PatchMapping()
     private BaseResponse<String> updateUserDateCount(@PathVariable Long userId) {
-        log.debug("DateCountController.patchUserDateCount");
+        log.debug("[DateCountController.patchUserDateCount]");
         dateCountService.updateUserDateCount(userId);
         return new BaseResponse<>(null);
     }

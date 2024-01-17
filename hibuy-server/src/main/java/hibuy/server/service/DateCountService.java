@@ -20,7 +20,7 @@ public class DateCountService {
 
     public GetDateCountResponse getUserDateCount(Long userId) {
 
-        log.debug("DateCountService.getUserDateCount");
+        log.debug("[DateCountService.getUserDateCount]");
         DateCount dateCount = dateCountRepository.findDateCountByUserId(userId);
         return new GetDateCountResponse(dateCount.getUser().getUserId(), dateCount.getDateCount());
 
@@ -29,7 +29,7 @@ public class DateCountService {
     @Transactional
     public void updateUserDateCount(Long userId) {
 
-        log.debug("PatchDateCountResponse.updateUserDateCount");
+        log.debug("[PatchDateCountResponse.updateUserDateCount]");
 
         int affectedRows = dateCountRepository.updateDateCountByUserId(userId);
         if (affectedRows != 1) {

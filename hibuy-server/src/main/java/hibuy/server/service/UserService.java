@@ -19,7 +19,7 @@ public class UserService {
     private final DateCountRepository dateCountRepository;
     public PostUserResponse addUser(PostUserRequest postUserRequest) {
 
-        log.debug("UserService.addUser");
+        log.debug("[UserService.addUser]");
 
         User user = userRepository.save(
                 new User(postUserRequest.getName(), postUserRequest.getEmail(), postUserRequest.getPhoneNumber())
