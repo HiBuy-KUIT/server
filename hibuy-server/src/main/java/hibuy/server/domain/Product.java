@@ -3,6 +3,7 @@ package hibuy.server.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,9 +31,11 @@ public class Product {
     @Column(nullable = false)
     private int price;
 
+    @Setter
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Setter
     @Column(name = "product_url")
     private String productUrl;
 
@@ -50,9 +53,14 @@ public class Product {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-
-
-
-
+    public Product(String companyName, String productName, int price, String imageUrl, String productUrl, String category) {
+        this.companyName = companyName;
+        this.productName = productName;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.productUrl = productUrl;
+        this.category = category;
+        this.status = "ACTIVE";
+    }
 
 }
