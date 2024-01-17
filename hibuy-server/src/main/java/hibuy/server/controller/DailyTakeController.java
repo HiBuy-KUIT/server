@@ -2,6 +2,7 @@ package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
 import hibuy.server.dto.dailyTake.GetMonthlyTakeResponse;
+import hibuy.server.dto.dailyTake.PostDailyTakeRequest;
 import hibuy.server.service.DailyTakeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,5 +24,10 @@ public class DailyTakeController {
         return new BaseResponse<>(dailyTakeService.getMonthlyTake(userId, year, month));
     }
 
-
+    @PostMapping()
+    private BaseResponse<String> addDailyTake(@PathVariable Long userId, @RequestBody PostDailyTakeRequest postDailyTakeRequest) {
+        log.debug("[DailyTakeController.addDailyTake]");
+        dailyTakeService.addDailyTake(userId, postDailyTakeRequest.getDate());
+        return new BaseResponse<>(null);
+    }
 }
