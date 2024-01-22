@@ -1,11 +1,13 @@
 package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
+import hibuy.server.dto.userProduct.GetUserProductRequest;
 import hibuy.server.dto.userProduct.GetUserProductResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.service.UserProductService;
+import java.sql.Timestamp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,13 +28,15 @@ public class UserProductController {
 
     private final UserProductService userProductService;
 
-//    @GetMapping("")
-//    public BaseResponse<GetUserProductResponse> getUserProduct(@RequestParam String date,
-//            @RequestParam Long userId) {
-//        log.debug("[UserProductController.getUserProduct]");
-//
-//
-//    }
+    @GetMapping("")
+    public BaseResponse<GetUserProductResponse> getUserProduct(@RequestParam Timestamp date,
+            @RequestParam Long userId) {
+        log.debug("[UserProductController.getUserProduct]");
+
+        return new BaseResponse<>(userProductService.getUserProduct(new
+                GetUserProductRequest(date, userId)));
+
+    }
 
     @PostMapping("")
     public BaseResponse<PostUserProductResponse> createUserProduct(

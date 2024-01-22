@@ -3,12 +3,15 @@ package hibuy.server.service;
 import hibuy.server.domain.Product;
 import hibuy.server.domain.User;
 import hibuy.server.domain.UserProduct;
+import hibuy.server.domain.UserProductDay;
 import hibuy.server.domain.UserProductTime;
 import hibuy.server.dto.userProduct.GetUserProductRequest;
 import hibuy.server.dto.userProduct.GetUserProductResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.repository.ProductRepository;
+import hibuy.server.repository.UserProductDayRepository;
+import hibuy.server.repository.UserProductJpaRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserProductTimeRepository;
 import hibuy.server.repository.UserRepository;
@@ -26,12 +29,14 @@ public class UserProductService {
     private final ProductRepository productRepository;
     private final UserProductRepository userProductRepository;
     private final UserProductTimeRepository userProductTimeRepository;
+    private final UserProductDayRepository userProductDayRepository;
+    private final UserProductJpaRepository userProductJpaRepository;
 
-//    public GetUserProductResponse getUserProduct(GetUserProductRequest getUserProductRequest) {
-//        log.debug("[UserProductService.getUserProduct]");
-//
-//
-//    }
+    public GetUserProductResponse getUserProduct(GetUserProductRequest request) {
+        log.debug("[UserProductService.getUserProduct]");
+
+        return new GetUserProductResponse(userProductJpaRepository.findByUserAndDate(request.getUserId(), request.getTakeTimestamp()));
+    }
 
 
     public PostUserProductResponse createUserProduct(PostUserProductRequest request) {
