@@ -21,8 +21,8 @@ public class PostUserProductRequest {
     private List<Time> takeTimeList;
 
     //섭취 요일
-    private int takeDay;
-
+//    private int takeDay;
+    private List<Integer> takeDay;
     //알림 여부
     private int notification;
 
