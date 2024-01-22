@@ -44,7 +44,7 @@ public class UserProductService {
         UserProduct userProduct = new UserProduct(
                 request.getOneTakeAmount(),
                 request.getTotalAmount(),
-                request.getTakeDay(),
+//                request.getTakeDay(),
                 request.getNotification(),
                 user,
                 product
@@ -53,6 +53,9 @@ public class UserProductService {
 
         for (Time time : request.getTakeTimeList()) {
             userProductTimeRepository.save(new UserProductTime(time, userProduct));
+        }
+        for (Integer day : request.getTakeDay()) {
+            userProductDayRepository.save(new UserProductDay(day, userProduct));
         }
 
         return new PostUserProductResponse(userProduct.getId());
