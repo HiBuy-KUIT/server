@@ -39,7 +39,7 @@ public class UserProduct {
 
     //daily amount 삭제
 
-    private int takeDay;
+//    private int takeDay;
 
     private int notification;
 
@@ -64,12 +64,13 @@ public class UserProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public UserProduct(int oneTakeAmount, int totalAmount, int takeDay,
+    public UserProduct(int oneTakeAmount, int totalAmount,
+//            int takeDay,
             int notification,
             User user, Product product) {
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
-        this.takeDay = takeDay;
+//        this.takeDay = takeDay;
         this.notification = notification;
         this.takeCount = 0;
         this.status = "ACTIVE";
@@ -77,3 +78,5 @@ public class UserProduct {
         this.product = product;
     }
 }
+
+
