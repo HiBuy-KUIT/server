@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.sql.Time;
 import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +28,7 @@ public class UserProductDay {
     @Column(name = "upd_id")
     private Long id;
 
-    private int day;
+    private int takeDay;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "up_id")
@@ -43,7 +42,7 @@ public class UserProductDay {
     private Timestamp updatedAt;
 
     public UserProductDay(int day, UserProduct userProduct) {
-        this.day = day;
+        this.takeDay = day;
         this.userProduct = userProduct;
     }
 }

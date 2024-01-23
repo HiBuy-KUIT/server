@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserProductDayRepository extends JpaRepository<UserProductDay, Long> {
 
-    @Query("select upd.day from UserProductDay upd where upd.userProduct.id=:userProductId")
+    @Query("select upd.takeDay from UserProductDay upd where upd.userProduct.id=:userProductId")
     List<Integer> findByUpId(@Param("userProductId") Long userProductId);
 
 }
