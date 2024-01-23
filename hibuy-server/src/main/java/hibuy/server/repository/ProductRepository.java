@@ -15,4 +15,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             " FROM Product p" +
             " WHERE p.category =:category AND p.status = 'ACTIVE'")
     List<ProductDTO> findProductsByCategory(@Param("category") String category);
+
+    @Query("SELECT new hibuy.server.dto.product.ProductDTO(p.productId, p.productName, p.companyName, p.price, p.imageUrl, p.productUrl)" +
+            " FROM Product p" +
+            " WHERE p.productName LIKE %:name% OR p.companyName LIKE %:name%")
+    List<ProductDTO> findProductsByName(String name);
 }

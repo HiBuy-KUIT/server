@@ -36,4 +36,9 @@ public class ProductService {
         log.debug("[ProductService.getProductListByCategory]");
         return new GetProductListResponse(productRepository.findProductsByCategory(category));
     }
+
+    public GetProductListResponse getProductListByName(String name) {
+        log.debug("[ProductService.getProductListByName]");
+        return new GetProductListResponse(productRepository.findProductsByName(name));
+    }
 }

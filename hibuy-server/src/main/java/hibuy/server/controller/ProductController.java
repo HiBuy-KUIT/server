@@ -28,4 +28,11 @@ public class ProductController {
         log.debug("[ProductController.getProductByCategory]");
         return new BaseResponse<>(productService.getProductListByCategory(category));
     }
+
+    @GetMapping("/search")
+    public BaseResponse<GetProductListResponse> getProductByName(@RequestParam String name){
+        log.debug("[ProductController.getProductByName]");
+        return new BaseResponse<>(productService.getProductListByName(name));
+    }
+
 }
