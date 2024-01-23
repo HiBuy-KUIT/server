@@ -3,6 +3,7 @@ package hibuy.server.repository;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.TakeStatusDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -29,31 +30,33 @@ public class UserProductJpaRepository {
                 "select new hibuy.server.dto.userProduct.DailyUserProductDto("
                         + " up.id, p.productName, up.oneTakeAmount)"
                         + " from UserProduct up"
-                        + " join BoolTake bt on up.id=bt.userProduct.id"
-                        + " join fetch Product p"
-                        + " join UserProductDay upd on upd.userProduct.id=up.id and upd.day=:day"
-                        + " where up.user.userId=:userId and bt.takeDate=:takeDay",
+                        + " join fetch Product p on up.product.id=p.id"
+                        + " join UserProductDay upd on upd.userProduct.id=up.id and upd.takeDay=:day"
+                        + " where up.user.userId=:userId",
                 DailyUserProductDto.class)
                 .setParameter("day", day)
                 .setParameter("userId", userId)
-                .setParameter("takeDay", takeDay)
                 .getResultList();
 
         for (DailyUserProductDto dailyUserProductDto : todayUserProduct) {
             List<Time> result = em.createQuery("select upt.takeTime"
                             + " from UserProductTime upt"
-                            + " join fetch UserProduct up"
+                            + " join fetch UserProduct up on upt.userProduct.id=up.id"
                             + " where upt.userProduct.id=up.id", Time.class).getResultList();
 
             for (Time time : result) {
                 LocalDateTime localDateTime = LocalDateTime.of(localDate, time.toLocalTime());
                 Timestamp timestamp = Timestamp.valueOf(localDateTime);
-
-                String status = em.createQuery("select bt.status from BoolTake bt"
-                                + " where bt.takeDate=:timestamp and bt.userProduct.id=:userProductId")
-                        .setParameter("timestamp", timestamp)
-                        .setParameter("userProductId", dailyUserProductDto.getUserProductId())
-                        .getSingleResult().toString();
+                String status;
+                try {
+                    status = em.createQuery("select bt.status from BoolTake bt"
+                                    + " where bt.takeDate=:timestamp and bt.userProduct.id=:userProductId")
+                            .setParameter("timestamp", timestamp)
+                            .setParameter("userProductId", dailyUserProductDto.getUserProductId())
+                            .getSingleResult().toString();
+                } catch (NoResultException e) {
+                    status = "INACTIVE";
+                }
 
                 if (status.equals("ACTIVE")) {
                     dailyUserProductDto.getTakeStatusDtoList().add(new TakeStatusDto(time, "ACTIVE"));
