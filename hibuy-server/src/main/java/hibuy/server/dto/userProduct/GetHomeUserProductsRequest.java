@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserProductRequest {
+public class GetHomeUserProductsRequest {
 
     private Timestamp takeTimestamp;
 

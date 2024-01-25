@@ -30,12 +30,12 @@ public class UserProductController {
     private final UserProductService userProductService;
 
     @GetMapping("")
-    public BaseResponse<GetUserProductResponse> getUserProduct(@RequestParam Timestamp date,
+    public BaseResponse<GetHomeUserProductsResponse> getHomeUserProducts(@RequestParam Timestamp date,
             @RequestParam Long userId) {
-        log.debug("[UserProductController.getUserProduct]");
+        log.debug("[UserProductController.getHomeUserProducts]");
 
-        return new BaseResponse<>(userProductService.getUserProduct(new
-                GetUserProductRequest(date, userId)));
+        return new BaseResponse<>(userProductService.getHomeUserProducts(new
+                GetHomeUserProductsRequest(date, userId)));
 
     }
 

@@ -44,7 +44,7 @@ public class UserProductService {
     private final UserProductJpaRepository userProductJpaRepository;
     private final BoolTakeRepository boolTakeRepository;
 
-    public GetUserProductResponse getUserProduct(GetUserProductRequest request) {
+    public GetHomeUserProductsResponse getHomeUserProducts(GetHomeUserProductsRequest request) {
         log.debug("[UserProductService.getUserProduct]");
 
         int day = request.getTakeTimestamp().toLocalDateTime().getDayOfWeek().getValue();
@@ -95,8 +95,7 @@ public class UserProductService {
             }
         }
 
-        return new GetUserProductResponse(todayUserProducts);
-//        return new GetUserProductResponse(userProductJpaRepository.findByUserAndDate(request.getUserId(), request.getTakeTimestamp()));
+        return new GetHomeUserProductsResponse(todayUserProducts);
     }
 
 
