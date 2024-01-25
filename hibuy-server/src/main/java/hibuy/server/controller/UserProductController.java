@@ -1,6 +1,7 @@
 package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
+import hibuy.server.dto.userProduct.DeleteUserProductResponse;
 import hibuy.server.dto.userProduct.GetUserProductRequest;
 import hibuy.server.dto.userProduct.GetUserProductResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
@@ -54,9 +55,11 @@ public class UserProductController {
 //
 //    }
 
-//    @DeleteMapping("")
-//    public BaseResponse<DeleteUserProductResponse> deleteUserProduct(
-//            @PathVariable Long userProductId) {
-//        log.debug("[UserProductController.deleteUserProduct]");
-//    }
+    @DeleteMapping("/{userProductId}")
+    public BaseResponse<DeleteUserProductResponse> deleteUserProduct(
+            @PathVariable Long userProductId) {
+        log.debug("[UserProductController.deleteUserProduct]");
+
+        return new BaseResponse<>(userProductService.deleteUserProduct(userProductId));
+    }
 }
