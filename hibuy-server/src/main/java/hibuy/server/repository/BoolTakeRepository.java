@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface BoolTakeRepository extends JpaRepository<BoolTake, Long> {
 
     @Query("select bt from BoolTake bt where bt.userProduct.id in :userProductIds")
-    List<BoolTake> findByUserProductId(@Param("userProductIds") List<Long> userProductIds);
+    List<BoolTake> findByUserProductIds(@Param("userProductIds") List<Long> userProductIds);
 
     @Query("delete from BoolTake b where b.userProduct.id = :userProductId")
     void deleteByUserProductId(@Param("userProductId") Long userProductId);

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface UserProductTimeRepository extends JpaRepository<UserProductTime, Long> {
 
     @Query("select upt from UserProductTime upt where upt.userProduct.id in :userProductIds")
-    List<UserProductTime> findByUserProductId(@Param("userProductIds") List<Long> userProductIds);
+    List<UserProductTime> findByUserProductIds(@Param("userProductIds") List<Long> userProductIds);
 
     @Query("delete from UserProductTime upt where upt.userProduct.id = :userProductId")
     void deleteByUserProductId(Long userProductId);

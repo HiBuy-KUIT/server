@@ -59,12 +59,12 @@ public class UserProductService {
                 .toList();
 
         //들의 섭취 시간 List, Map
-        List<UserProductTime> userProductTimeList = userProductTimeRepository.findByUserProductId(userProductIds);
+        List<UserProductTime> userProductTimeList = userProductTimeRepository.findByUserProductIds(userProductIds);
         Map<Long, List<UserProductTime>> userProductTimeMap = userProductTimeList.stream()
                 .collect(Collectors.groupingBy(userProductTime -> userProductTime.getUserProduct().getId()));
 
         //들의 섭취 여부 List, Map
-        List<BoolTake> boolTakeList = boolTakeRepository.findByUserProductId(userProductIds);
+        List<BoolTake> boolTakeList = boolTakeRepository.findByUserProductIds(userProductIds);
         Map<Long, List<BoolTake>> boolTakeMap = boolTakeList.stream()
                 .collect(Collectors.groupingBy(boolTake -> boolTake.getUserProduct().getId()));
 
