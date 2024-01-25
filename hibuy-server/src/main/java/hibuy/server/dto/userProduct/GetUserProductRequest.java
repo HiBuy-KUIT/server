@@ -1,7 +1,5 @@
 package hibuy.server.dto.userProduct;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

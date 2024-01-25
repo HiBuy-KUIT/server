@@ -15,10 +15,6 @@ public class DailyUserProductDto {
 
     private int oneTakeAmount;
 
-//        private String status;
-//
-//    private List<Time> takeTime;
-
     private List<TakeStatusDto> takeStatusDtoList;
 
 
