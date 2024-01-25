@@ -11,4 +11,6 @@ public interface UserProductDayRepository extends JpaRepository<UserProductDay, 
     @Query("select upd.takeDay from UserProductDay upd where upd.userProduct.id=:userProductId")
     List<Integer> findByUpId(@Param("userProductId") Long userProductId);
 
+    @Query("delete from UserProductDay upd where upd.userProduct.id = :userProductId")
+    void deleteByUserProductId(Long userProductId);
 }
