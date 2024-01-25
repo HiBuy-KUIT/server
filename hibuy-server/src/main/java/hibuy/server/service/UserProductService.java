@@ -8,10 +8,11 @@ import hibuy.server.domain.UserProductDay;
 import hibuy.server.domain.UserProductTime;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
-import hibuy.server.dto.userProduct.GetUserProductRequest;
-import hibuy.server.dto.userProduct.GetUserProductResponse;
+import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
+import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
+import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.TakeStatusDto;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
@@ -98,6 +99,20 @@ public class UserProductService {
         return new GetHomeUserProductsResponse(todayUserProducts);
     }
 
+    public PutUserProductRequest getUserProduct(Long userProductId) {
+        log.debug("[UserProductService.getUserProduct]");
+
+        UserProduct userProduct = userProductRepository.findById(userProductId).orElseThrow();
+        List<Integer> days = userProductDayRepository.findByUpId(userProductId);
+        List<Time> times = userProductTimeRepository.findByUpId(userProductId);
+
+        return new PutUserProductRequest(
+                userProductId, userProduct.getOneTakeAmount(), userProduct.getTotalAmount(), times,
+                days,
+                userProduct.getNotification(), userProduct.getUser().getUserId(),
+                userProduct.getProduct().getProductId()
+        );
+    }
 
     public PostUserProductResponse createUserProduct(PostUserProductRequest request) {
         log.debug("[UserProductService.createUserProduct]");
