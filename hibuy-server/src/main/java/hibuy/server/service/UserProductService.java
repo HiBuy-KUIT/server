@@ -80,7 +80,7 @@ public class UserProductService {
                 try {
                     for (BoolTake boolTake : boolTakeMap.get(
                             dailyUserProductDto.getUserProductId())) {
-                        if (boolTake.getTakeDate().equals(takeTime)) {
+                        if (boolTake.getTakeDateTime().equals(takeTime)) {
                             status = "ACTIVE";
                             break;
                         }
@@ -110,7 +110,6 @@ public class UserProductService {
         UserProduct userProduct = new UserProduct(
                 request.getOneTakeAmount(),
                 request.getTotalAmount(),
-//                request.getTakeDay(),
                 request.getNotification(),
                 user,
                 product

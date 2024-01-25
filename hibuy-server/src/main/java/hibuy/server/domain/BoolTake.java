@@ -30,7 +30,7 @@ public class BoolTake {
     @Column(name = "bt_id")
     private Long id;
 
-    private Timestamp takeDate;
+    private Timestamp takeDateTime;
 
     private String status;
 
