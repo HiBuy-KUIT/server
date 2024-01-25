@@ -1,6 +1,7 @@
 package hibuy.server.repository;
 
 import hibuy.server.domain.UserProductTime;
+import java.sql.Time;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,7 @@ public interface UserProductTimeRepository extends JpaRepository<UserProductTime
 
     @Query("delete from UserProductTime upt where upt.userProduct.id = :userProductId")
     void deleteByUserProductId(Long userProductId);
+
+    @Query("select upt.takeTime from UserProductTime upt where upt.userProduct.id=:userProductId")
+    List<Time> findByUpId(@Param("userProductId") Long userProductId);
 }
