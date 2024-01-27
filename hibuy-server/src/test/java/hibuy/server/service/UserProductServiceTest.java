@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import hibuy.server.domain.Product;
 import hibuy.server.domain.User;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
-import hibuy.server.dto.userProduct.GetUserProductRequest;
+import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.TakeStatusDto;
@@ -87,16 +87,16 @@ class UserProductServiceTest {
         test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("09:30:00"), "INACTIVE"));
 
         //then
-        assertThat(userProductService.getUserProduct(new GetUserProductRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getUserProduct(new GetUserProductRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getUserProduct(new GetUserProductRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getUserProduct(new GetUserProductRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
                 .isEqualTo("INACTIVE");
     }
