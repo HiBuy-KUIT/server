@@ -40,7 +40,7 @@ public class UserProductController {
 
     }
 
-    @GetMapping("")
+    @GetMapping("/edit")
     public BaseResponse<PutUserProductRequest> getUserProduct(@RequestParam Long userProductId) {
         log.debug("[UserProductController.getUserProduct]");
 
