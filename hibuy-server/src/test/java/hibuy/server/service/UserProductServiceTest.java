@@ -59,7 +59,7 @@ class UserProductServiceTest {
         PostUserProductResponse userProduct = userProductService.createUserProduct(request);
 
         //then
-        assertThat(userProductRepository.findById(userProduct.getUserProductId()).get()
+        assertThat(userProductRepository.findById(userProduct.getUserProductId()).orElseThrow()
                 .getUser()).isEqualTo(user);
     }
 
@@ -91,11 +91,8 @@ class UserProductServiceTest {
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
         assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
-                .getUserProductDtoList().get(0).getProductName())
-                .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
-                .getUserProductDtoList().get(0).getProductName())
-                .isEqualTo(test.get(0).getProductName());
+                .getUserProductDtoList().get(0).getOneTakeAmount())
+                .isEqualTo(test.get(0).getOneTakeAmount());
         assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
                 .isEqualTo("INACTIVE");
