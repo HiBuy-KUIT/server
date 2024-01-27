@@ -13,6 +13,7 @@ import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
+import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.dto.userProduct.TakeStatusDto;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
@@ -112,6 +113,28 @@ public class UserProductService {
                 userProduct.getNotification(), userProduct.getUser().getUserId(),
                 userProduct.getProduct().getProductId()
         );
+    }
+
+    public PutUserProductResponse updateUserProduct(PutUserProductRequest request) {
+        log.debug("[UserProductService.updateUserProduct]");
+
+        UserProduct userProduct = userProductRepository.findById(request.getUserProductId()).orElseThrow();
+        userProduct.updateUserProduct(request.getOneTakeAmount(), request.getTotalAmount(),
+                request.getNotification());
+
+        //userproductTime 삭제 후 생성
+        userProductTimeRepository.deleteByUserProductId(userProduct.getId());
+        for (Time time : request.getTakeTimeList()) {
+            userProductTimeRepository.save(new UserProductTime(time, userProduct));
+        }
+
+        //userproductday 삭제 후 생성
+        userProductDayRepository.deleteByUserProductId(userProduct.getId());
+        for (Integer day : request.getTakeDay()) {
+            userProductDayRepository.save(new UserProductDay(day, userProduct));
+        }
+
+        return new PutUserProductResponse(userProduct.getId());
     }
 
     public PostUserProductResponse createUserProduct(PostUserProductRequest request) {

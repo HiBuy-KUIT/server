@@ -67,6 +67,12 @@ public class UserProduct {
         this.user = user;
         this.product = product;
     }
+
+    public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {
+        this.oneTakeAmount = oneTakeAmount;
+        this.totalAmount = totalAmount;
+        this.notification = notification;
+    }
 }
 
 
