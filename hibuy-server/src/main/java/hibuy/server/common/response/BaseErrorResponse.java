@@ -1,10 +1,13 @@
 package hibuy.server.common.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import hibuy.server.common.exception.FieldException;
 import hibuy.server.common.response.status.ResponseStatus;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @JsonPropertyOrder({"code", "status", "message", "timestamp"})
@@ -27,21 +30,6 @@ public class BaseErrorResponse implements ResponseStatus {
         this.status = status.getStatus();
         this.message = message;
         this.timestamp = LocalDateTime.now();
-    }
-
-    @Override
-    public int getCode() {
-        return code;
-    }
-
-    @Override
-    public int getStatus() {
-        return status;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
     }
 
 }
