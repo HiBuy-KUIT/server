@@ -1,6 +1,8 @@
 package hibuy.server.common.exception_handler;
 
+import hibuy.server.common.exception.FieldException;
 import hibuy.server.common.response.BaseErrorResponse;
+import hibuy.server.common.response.RequestErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,20 +19,16 @@ public class BaseExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    public BaseErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public RequestErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("[handle_MethodArgumentNotValidException]", e);
-        return new BaseErrorResponse(METHOD_ARGUMENT_NOT_VALID, getMethodArgumentNotValidErrorMessage(e));
+        return new RequestErrorResponse(METHOD_ARGUMENT_NOT_VALID, FieldException.create(e.getBindingResult()));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
     public BaseErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("[handle_HttpMessageNotReadableException]", e);
-        return new BaseErrorResponse(JSON_PARSING_ERROR);
-    }
-
-    private String getMethodArgumentNotValidErrorMessage(MethodArgumentNotValidException e) {
-        return e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        return new BaseErrorResponse(INVALID_JSON);
     }
 
 }
