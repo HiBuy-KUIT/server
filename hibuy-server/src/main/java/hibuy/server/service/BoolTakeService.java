@@ -4,10 +4,8 @@ import hibuy.server.domain.BoolTake;
 import hibuy.server.dto.booltake.PatchBoolTakeRequest;
 import hibuy.server.dto.booltake.PatchBoolTakeResponse;
 import hibuy.server.repository.BoolTakeRepository;
-import hibuy.server.repository.UserProductRepository;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,8 @@ public class BoolTakeService {
     private final BoolTakeRepository boolTakeRepository;
 
     public PatchBoolTakeResponse updateBoolTake(PatchBoolTakeRequest request) {
+        log.debug("[BoolTakeService.updateBoolTake]");
+
         LocalDateTime localDateTime = LocalDateTime.of(request.getTakeDate().toLocalDate(),
                 request.getTakeTime().toLocalTime());
         Timestamp takeDateTime = Timestamp.valueOf(localDateTime);
