@@ -26,8 +26,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,12 +68,25 @@ public class UserProductService {
                 .collect(Collectors.groupingBy(userProductTime -> userProductTime.getUserProduct().getId()));
 
         //들의 섭취 여부 List, Map
-        List<BoolTake> boolTakeList = boolTakeRepository.findByUserProductIds(userProductIds);
-        Map<Long, List<BoolTake>> boolTakeMap = boolTakeList.stream()
-                .collect(Collectors.groupingBy(boolTake -> boolTake.getUserProduct().getId()));
+        Optional<List<BoolTake>> boolTakeList = Optional.ofNullable(boolTakeRepository.findByUserProductIds(userProductIds));
+
+        //Timestamp 를 key 로 갖는 BoolTake Map / 을 value 로 갖는 UserProductId가 Key 인 Map
+        //ex) userProductId가 X인 boolTake 들 중 (1차 조회) / 29일 오후 2시에 먹은 boolTake (2차 조회)
+        Map<Long, Map<Timestamp, BoolTake>> timestampBoolTakeMap = boolTakeList
+                .map(list -> list.stream()
+                        .collect(Collectors.groupingBy(
+                                boolTake -> boolTake.getUserProduct().getId(),
+                                Collectors.toMap(
+                                        BoolTake::getTakeDateTime,
+                                        boolTake -> boolTake
+                                )
+                        )))
+        .orElse(Collections.emptyMap());
 
         //각 UserProduct
         for (DailyUserProductDto dailyUserProductDto : todayUserProducts) {
+            Long userProductId = dailyUserProductDto.getUserProductId();
+
             //의 각 섭취시간별 섭취여부 판별
             for (UserProductTime userProductTime : userProductTimeMap.get(dailyUserProductDto.getUserProductId())) {
                 //날짜와 시간 결합
@@ -79,21 +94,17 @@ public class UserProductService {
                         userProductTime.getTakeTime().toLocalTime()));
                 String status = "INACTIVE";
 
-                try {
-                    for (BoolTake boolTake : boolTakeMap.get(
-                            dailyUserProductDto.getUserProductId())) {
-                        if (boolTake.getTakeDateTime().equals(takeTime)) {
-                            status = "ACTIVE";
-                            break;
-                        }
-                    }
-                } catch (NullPointerException e) {}
+                BoolTake isTake = timestampBoolTakeMap.get(userProductId).get(takeTime);
 
-                if (status.equals("ACTIVE")) {
-                    dailyUserProductDto.getTakeStatusDtoList().add(new TakeStatusDto(userProductTime.getTakeTime(), "ACTIVE"));
+                //BoolTake 기록 없으면 생성
+                if (isTake == null) {
+                    boolTakeRepository.save(
+                            new BoolTake(takeTime, status, userProductRepository.findById(
+                                    dailyUserProductDto.getUserProductId()).orElseThrow()));
                 } else {
-                    dailyUserProductDto.getTakeStatusDtoList().add(new TakeStatusDto(userProductTime.getTakeTime(), "INACTIVE"));
+                    status = isTake.getStatus();
                 }
+                dailyUserProductDto.getTakeStatusDtoList().add(new TakeStatusDto(userProductTime.getTakeTime(), status));
             }
         }
 
@@ -122,13 +133,13 @@ public class UserProductService {
         userProduct.updateUserProduct(request.getOneTakeAmount(), request.getTotalAmount(),
                 request.getNotification());
 
-        //userproductTime 삭제 후 생성
+        //userProductTime 삭제 후 생성
         userProductTimeRepository.deleteByUserProductId(userProduct.getId());
         for (Time time : request.getTakeTimeList()) {
             userProductTimeRepository.save(new UserProductTime(time, userProduct));
         }
 
-        //userproductday 삭제 후 생성
+        //userProductDay 삭제 후 생성
         userProductDayRepository.deleteByUserProductId(userProduct.getId());
         for (Integer day : request.getTakeDay()) {
             userProductDayRepository.save(new UserProductDay(day, userProduct));
