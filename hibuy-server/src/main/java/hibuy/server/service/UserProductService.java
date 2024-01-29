@@ -94,7 +94,9 @@ public class UserProductService {
                         userProductTime.getTakeTime().toLocalTime()));
                 String status = "INACTIVE";
 
-                BoolTake isTake = timestampBoolTakeMap.get(userProductId).get(takeTime);
+                BoolTake isTake = Optional.ofNullable(timestampBoolTakeMap.get(userProductId))
+                        .map(inMap -> inMap.get(takeTime))
+                        .orElse(null);
 
                 //BoolTake 기록 없으면 생성
                 if (isTake == null) {
