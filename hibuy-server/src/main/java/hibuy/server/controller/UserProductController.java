@@ -2,7 +2,6 @@ package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
-import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
 import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
@@ -35,8 +34,7 @@ public class UserProductController {
             @RequestParam Long userId) {
         log.debug("[UserProductController.getHomeUserProducts]");
 
-        return new BaseResponse<>(userProductService.getHomeUserProducts(new
-                GetHomeUserProductsRequest(date, userId)));
+        return new BaseResponse<>(userProductService.getHomeUserProducts(date, userId));
 
     }
 

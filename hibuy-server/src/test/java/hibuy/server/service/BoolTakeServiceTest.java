@@ -6,7 +6,6 @@ import hibuy.server.domain.Product;
 import hibuy.server.domain.User;
 import hibuy.server.dto.booltake.PatchBoolTakeRequest;
 import hibuy.server.dto.booltake.PatchBoolTakeResponse;
-import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.repository.BoolTakeRepository;
@@ -81,9 +80,7 @@ class BoolTakeServiceTest {
                 Time.valueOf("09:30:00"), "ACTIVE");
 
         //when
-        userProductService.getHomeUserProducts(
-                new GetHomeUserProductsRequest(LocalDate.of(2024,1,30),
-                        user.getUserId()));
+        userProductService.getHomeUserProducts(LocalDate.of(2024,1,30), user.getUserId());
 
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(
                 userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).getStatus()).isEqualTo("INACTIVE");
