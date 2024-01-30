@@ -24,7 +24,8 @@ public class DailyTake {
     @Column(name = "take_date", nullable = false)
     private Date takeDate;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -40,7 +41,7 @@ public class DailyTake {
 
     public DailyTake(Date takeDate, User user) {
         this.takeDate = takeDate;
-        this.status = "ACTIVE";
+        this.status = Status.ACTIVE;
         this.user = user;
     }
 }

@@ -1,11 +1,6 @@
 package hibuy.server.service;
 
-import hibuy.server.domain.BoolTake;
-import hibuy.server.domain.Product;
-import hibuy.server.domain.User;
-import hibuy.server.domain.UserProduct;
-import hibuy.server.domain.UserProductDay;
-import hibuy.server.domain.UserProductTime;
+import hibuy.server.domain.*;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
 import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
@@ -92,7 +87,7 @@ public class UserProductService {
                 //날짜와 시간 결합
                 Timestamp takeTime = Timestamp.valueOf(LocalDateTime.of(localDate,
                         userProductTime.getTakeTime().toLocalTime()));
-                String status = "INACTIVE";
+                Status status = Status.ACTIVE;
 
                 BoolTake isTake = Optional.ofNullable(timestampBoolTakeMap.get(userProductId))
                         .map(inMap -> inMap.get(takeTime))

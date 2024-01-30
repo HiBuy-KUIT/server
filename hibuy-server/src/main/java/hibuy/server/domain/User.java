@@ -29,8 +29,8 @@ public class User {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column()
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -44,6 +44,6 @@ public class User {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.status = "ACTIVE";
+        this.status = Status.ACTIVE;
     }
 }
