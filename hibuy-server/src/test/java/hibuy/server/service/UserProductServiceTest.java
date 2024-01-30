@@ -117,8 +117,7 @@ class UserProductServiceTest {
 
         //when
         PutUserProductRequest putUserProductRequest = new PutUserProductRequest(
-                userProduct.getUserProductId(), 1, 150, timeList, dayList, 1, user.getUserId(),
-                product.getProductId());
+                userProduct.getUserProductId(), 1, 150, timeList, dayList, 1);
         userProductService.updateUserProduct(putUserProductRequest);
 
         //then
