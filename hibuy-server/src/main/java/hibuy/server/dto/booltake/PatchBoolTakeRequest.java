@@ -2,6 +2,8 @@ package hibuy.server.dto.booltake;
 
 import java.sql.Date;
 import java.sql.Time;
+
+import hibuy.server.domain.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,5 +14,6 @@ public class PatchBoolTakeRequest {
     private Long userProductId;
     private Date takeDate;
     private Time takeTime;
-    private String status;
+    private Status status;
+
 }

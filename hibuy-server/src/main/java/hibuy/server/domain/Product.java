@@ -42,8 +42,8 @@ public class Product {
     @Column(nullable = false)
     private String category;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -60,7 +60,7 @@ public class Product {
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
         this.category = category;
-        this.status = "ACTIVE";
+        this.status = Status.ACTIVE;
     }
 
 }

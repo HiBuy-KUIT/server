@@ -33,8 +33,8 @@ public class Sample {
     @Column(name = "product_url")
     private String productUrl;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -49,7 +49,7 @@ public class Sample {
         this.companyName = companyName;
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
-        this.status = "ACTIVE";
+        this.status = Status.ACTIVE;
     }
 
 }
