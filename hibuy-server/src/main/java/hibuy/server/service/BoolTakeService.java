@@ -31,6 +31,6 @@ public class BoolTakeService {
 
         boolTake.updateBoolTake(request.getStatus());
 
-        return new PatchBoolTakeResponse(boolTake.getUserProduct().getId(), takeDateTime);
+        return new PatchBoolTakeResponse(boolTake.getUserProduct().getId(), localDateTime);
     }
 }
