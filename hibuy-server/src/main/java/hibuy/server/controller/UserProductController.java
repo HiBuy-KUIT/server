@@ -8,6 +8,7 @@ import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.service.UserProductService;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class UserProductController {
 
     @PostMapping("")
     public BaseResponse<PostUserProductResponse> createUserProduct(
-            @RequestBody PostUserProductRequest postUserProductRequest) {
+            @Valid @RequestBody PostUserProductRequest postUserProductRequest) {
         log.debug("[UserProductController.createUserProduct]");
 
         return new BaseResponse<>(userProductService.createUserProduct(postUserProductRequest));
@@ -55,7 +56,7 @@ public class UserProductController {
 
     @PutMapping("")
     public BaseResponse<PutUserProductResponse> updateUserProduct(
-            @RequestBody PutUserProductRequest request) {
+            @Valid @RequestBody PutUserProductRequest request) {
         log.debug("[UserProductController.updateUserProduct]");
 
         return new BaseResponse<>(userProductService.updateUserProduct(request));
