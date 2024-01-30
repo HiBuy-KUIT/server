@@ -1,4 +1,4 @@
-package hibuy.server.common.response.exception;
+package hibuy.server.common.exception;
 
 import hibuy.server.common.response.status.ResponseStatus;
 import lombok.AllArgsConstructor;

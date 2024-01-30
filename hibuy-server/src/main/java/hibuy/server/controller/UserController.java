@@ -6,6 +6,7 @@ import hibuy.server.dto.user.PostUserResponse;
 import hibuy.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public BaseResponse<PostUserResponse> adduser(@RequestBody PostUserRequest postUserRequest) {
+    public BaseResponse<PostUserResponse> adduser(@Validated @RequestBody PostUserRequest postUserRequest) {
 
         log.debug("[UserController.addUser]");
 
