@@ -8,7 +8,6 @@ import hibuy.server.domain.UserProductDay;
 import hibuy.server.domain.UserProductTime;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
-import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
 import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
@@ -49,14 +48,14 @@ public class UserProductService {
     private final UserProductJpaRepository userProductJpaRepository;
     private final BoolTakeRepository boolTakeRepository;
 
-    public GetHomeUserProductsResponse getHomeUserProducts(GetHomeUserProductsRequest request) {
+    public GetHomeUserProductsResponse getHomeUserProducts(LocalDate localDate, Long userId) {
+
         log.debug("[UserProductService.getUserProduct]");
 
-        int day = request.getTakeDate().getDayOfWeek().getValue();
-        LocalDate localDate = request.getTakeDate();
+        int day = localDate.getDayOfWeek().getValue();
 
         //오늘 먹을 영양제
-        List<DailyUserProductDto> todayUserProducts = userProductJpaRepository.findByUserAndDate(request.getUserId(), day);
+        List<DailyUserProductDto> todayUserProducts = userProductJpaRepository.findByUserAndDate(userId, day);
 
         //의 UserProduct id List
         List<Long> userProductIds = todayUserProducts.stream()

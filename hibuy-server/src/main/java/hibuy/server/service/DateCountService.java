@@ -1,6 +1,6 @@
 package hibuy.server.service;
 
-import hibuy.server.common.response.exception.DatabaseException;
+import hibuy.server.common.exception.DatabaseException;
 import hibuy.server.domain.DateCount;
 import hibuy.server.dto.dateCount.GetDateCountResponse;
 import hibuy.server.repository.DateCountRepository;
