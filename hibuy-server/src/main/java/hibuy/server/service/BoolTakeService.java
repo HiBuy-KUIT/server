@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -17,6 +18,7 @@ public class BoolTakeService {
 
     private final BoolTakeRepository boolTakeRepository;
 
+    @Transactional
     public PatchBoolTakeResponse updateBoolTake(PatchBoolTakeRequest request) {
         log.debug("[BoolTakeService.updateBoolTake]");
 
