@@ -23,8 +23,4 @@ public class PutUserProductRequest {
     private List<Integer> takeDay;
     //알림 여부
     private int notification;
-
-    private Long userId;
-
-    private Long productId;
 }

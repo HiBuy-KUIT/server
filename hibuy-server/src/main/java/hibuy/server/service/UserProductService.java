@@ -124,8 +124,7 @@ public class UserProductService {
         return new PutUserProductRequest(
                 userProductId, userProduct.getOneTakeAmount(), userProduct.getTotalAmount(), times,
                 days,
-                userProduct.getNotification(), userProduct.getUser().getUserId(),
-                userProduct.getProduct().getProductId()
+                userProduct.getNotification()
         );
     }
 
