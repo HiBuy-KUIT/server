@@ -11,25 +11,20 @@ import java.util.List;
 
 @Getter
 @JsonPropertyOrder({"code", "status", "message", "timestamp"})
-public class BaseErrorResponse implements ResponseStatus {
+public class RequestErrorResponse implements ResponseStatus {
 
     private final int code;
     private final int status;
     private final String message;
     private final LocalDateTime timestamp;
+    private final List<FieldException> exceptions;
 
-    public BaseErrorResponse(ResponseStatus status) {
+    public RequestErrorResponse(ResponseStatus status, List<FieldException> exceptions) {
         this.code = status.getCode();
         this.status = status.getStatus();
         this.message = status.getMessage();
         this.timestamp = LocalDateTime.now();
-    }
-
-    public BaseErrorResponse(ResponseStatus status, String message) {
-        this.code = status.getCode();
-        this.status = status.getStatus();
-        this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.exceptions = (exceptions == null) ? new ArrayList<>() : exceptions;
     }
 
 }
