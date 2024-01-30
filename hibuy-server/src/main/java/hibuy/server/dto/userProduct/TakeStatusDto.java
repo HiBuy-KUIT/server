@@ -1,6 +1,8 @@
 package hibuy.server.dto.userProduct;
 
 import java.sql.Time;
+
+import hibuy.server.domain.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,5 +11,5 @@ import lombok.Getter;
 public class TakeStatusDto {
 
     private Time takeTime;
-    private String status;
+    private Status status;
 }
