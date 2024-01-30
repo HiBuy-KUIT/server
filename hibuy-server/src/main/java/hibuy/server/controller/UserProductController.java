@@ -40,8 +40,8 @@ public class UserProductController {
 
     }
 
-    @GetMapping("/edit")
-    public BaseResponse<PutUserProductRequest> getUserProduct(@RequestParam Long userProductId) {
+    @GetMapping("/edit/{userProductId}")
+    public BaseResponse<PutUserProductRequest> getUserProduct(@PathVariable Long userProductId) {
         log.debug("[UserProductController.getUserProduct]");
 
         return new BaseResponse<>(userProductService.getUserProduct(userProductId));
