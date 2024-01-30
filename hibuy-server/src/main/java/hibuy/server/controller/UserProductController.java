@@ -55,7 +55,7 @@ public class UserProductController {
         return new BaseResponse<>(userProductService.createUserProduct(postUserProductRequest));
     }
 
-    @PutMapping("/{userProductId}")
+    @PutMapping("")
     public BaseResponse<PutUserProductResponse> updateUserProduct(
             @RequestBody PutUserProductRequest request) {
         log.debug("[UserProductController.updateUserProduct]");
