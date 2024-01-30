@@ -12,7 +12,7 @@ public class PostAddressRequest {
     public static final String PHONE_NUMBER_REGEX = "^010\\d{8}$";
 
     @NotEmpty(message = "유효하지 않은 이름 입력 형식입니다.")
-    private String name;
+    private String addressName;
 
     private String receiver;
 

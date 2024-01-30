@@ -26,7 +26,7 @@ public class AddressService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
 
         Address address = addressRepository.save(new Address(
-                request.getName(),
+                request.getAddressName(),
                 request.getReceiver(),
                 request.getPhoneNumber(),
                 request.getZipCode(),
@@ -40,6 +40,8 @@ public class AddressService {
         return new PostAddressResponse(address.getId());
 
     }
+
+
 
 
 }

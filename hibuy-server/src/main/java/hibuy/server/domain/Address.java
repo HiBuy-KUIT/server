@@ -22,7 +22,7 @@ public class Address {
     private Long id;
 
     @Column(name = "address_name")
-    private String name;
+    private String addressName;
 
     private String receiver;
 
@@ -58,8 +58,8 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Address(String name, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean isDefaultAddress, String request, User user) {
-        this.name = name;
+    public Address(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean isDefaultAddress, String request, User user) {
+        this.addressName = addressName;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
         this.zipCode = zipCode;
