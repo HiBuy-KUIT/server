@@ -4,12 +4,12 @@ import java.sql.Time;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PostUserProductRequest {
+public class PutUserProductRequest {
+
+    private Long userProductId;
 
     //1회 섭취량
     private int oneTakeAmount;

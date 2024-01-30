@@ -11,13 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,10 +33,6 @@ public class UserProduct {
     private int oneTakeAmount;
 
     private int totalAmount;
-
-    //daily amount 삭제
-
-//    private int takeDay;
 
     private int notification;
 
@@ -64,18 +57,21 @@ public class UserProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public UserProduct(int oneTakeAmount, int totalAmount,
-//            int takeDay,
-            int notification,
+    public UserProduct(int oneTakeAmount, int totalAmount, int notification,
             User user, Product product) {
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
-//        this.takeDay = takeDay;
         this.notification = notification;
         this.takeCount = 0;
         this.status = "ACTIVE";
         this.user = user;
         this.product = product;
+    }
+
+    public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {
+        this.oneTakeAmount = oneTakeAmount;
+        this.totalAmount = totalAmount;
+        this.notification = notification;
     }
 }
 

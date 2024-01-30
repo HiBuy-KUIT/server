@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GetUserProductResponse {
+public class GetHomeUserProductsResponse {
 
     private List<DailyUserProductDto> userProductDtoList;
 }

@@ -30,7 +30,7 @@ public class BoolTake {
     @Column(name = "bt_id")
     private Long id;
 
-    private Timestamp takeDate;
+    private Timestamp takeDateTime;
 
     private String status;
 
@@ -46,5 +46,13 @@ public class BoolTake {
     @JoinColumn(name = "up_id")
     private UserProduct userProduct;
 
+    public BoolTake(Timestamp takeDateTime, String status, UserProduct userProduct) {
+        this.takeDateTime = takeDateTime;
+        this.status = status;
+        this.userProduct = userProduct;
+    }
 
+    public void updateBoolTake(String status) {
+        this.status = status;
+    }
 }

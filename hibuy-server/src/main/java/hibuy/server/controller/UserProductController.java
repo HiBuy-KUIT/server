@@ -2,13 +2,14 @@ package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
-import hibuy.server.dto.userProduct.GetUserProductRequest;
-import hibuy.server.dto.userProduct.GetUserProductResponse;
+import hibuy.server.dto.userProduct.GetHomeUserProductsRequest;
+import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
+import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.service.UserProductService;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,13 +31,20 @@ public class UserProductController {
     private final UserProductService userProductService;
 
     @GetMapping("")
-    public BaseResponse<GetUserProductResponse> getUserProduct(@RequestParam Timestamp date,
+    public BaseResponse<GetHomeUserProductsResponse> getHomeUserProducts(@RequestParam LocalDate date,
             @RequestParam Long userId) {
+        log.debug("[UserProductController.getHomeUserProducts]");
+
+        return new BaseResponse<>(userProductService.getHomeUserProducts(new
+                GetHomeUserProductsRequest(date, userId)));
+
+    }
+
+    @GetMapping("/edit")
+    public BaseResponse<PutUserProductRequest> getUserProduct(@RequestParam Long userProductId) {
         log.debug("[UserProductController.getUserProduct]");
 
-        return new BaseResponse<>(userProductService.getUserProduct(new
-                GetUserProductRequest(date, userId)));
-
+        return new BaseResponse<>(userProductService.getUserProduct(userProductId));
     }
 
     @PostMapping("")
@@ -47,13 +55,13 @@ public class UserProductController {
         return new BaseResponse<>(userProductService.createUserProduct(postUserProductRequest));
     }
 
-//    @PutMapping("")
-//    public BaseResponse<PutUserProductResponse> updateUserProduct(
-//            @PathVariable Long userProductId) {
-//        log.debug("[UserProductController.updateUserProduct]");
-//
-//
-//    }
+    @PutMapping("/{userProductId}")
+    public BaseResponse<PutUserProductResponse> updateUserProduct(
+            @RequestBody PutUserProductRequest request) {
+        log.debug("[UserProductController.updateUserProduct]");
+
+        return new BaseResponse<>(userProductService.updateUserProduct(request));
+    }
 
     @DeleteMapping("/{userProductId}")
     public BaseResponse<DeleteUserProductResponse> deleteUserProduct(
