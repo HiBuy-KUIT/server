@@ -17,11 +17,11 @@ import hibuy.server.repository.UserRepository;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.verification.Times;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +82,7 @@ class BoolTakeServiceTest {
 
         //when
         userProductService.getHomeUserProducts(
-                new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-30 09:30:00"),
+                new GetHomeUserProductsRequest(LocalDate.of(2024,1,30),
                         user.getUserId()));
 
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(

@@ -16,7 +16,7 @@ import hibuy.server.repository.UserProductJpaRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserRepository;
 import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,13 +81,13 @@ class UserProductServiceTest {
         test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("09:30:00"), "INACTIVE"));
 
         //then
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,23),user.getUserId()))
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,23),user.getUserId()))
                 .getUserProductDtoList().get(0).getOneTakeAmount())
                 .isEqualTo(test.get(0).getOneTakeAmount());
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,23),user.getUserId()))
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
                 .isEqualTo("INACTIVE");
     }
@@ -103,7 +103,7 @@ class UserProductServiceTest {
         test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("21:30:00"), "INACTIVE"));
 
         //수정 전
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-23 09:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,23),user.getUserId()))
                 .getUserProductDtoList().get(0).getOneTakeAmount())
                 .isEqualTo(test.get(0).getOneTakeAmount());
 
@@ -122,13 +122,13 @@ class UserProductServiceTest {
         userProductService.updateUserProduct(putUserProductRequest);
 
         //then
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-31 12:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,31),user.getUserId()))
                 .getUserProductDtoList().get(0).getProductName())
                 .isEqualTo(test.get(0).getProductName());
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-01-31 21:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,2,2),user.getUserId()))
                 .getUserProductDtoList().get(0).getOneTakeAmount())
                 .isEqualTo(1);
-        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(Timestamp.valueOf("2024-02-02 12:30:00"),user.getUserId()))
+        assertThat(userProductService.getHomeUserProducts(new GetHomeUserProductsRequest(LocalDate.of(2024,1,31),user.getUserId()))
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
                 .isEqualTo("INACTIVE");
     }

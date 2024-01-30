@@ -9,7 +9,7 @@ import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.service.UserProductService;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ public class UserProductController {
     private final UserProductService userProductService;
 
     @GetMapping("")
-    public BaseResponse<GetHomeUserProductsResponse> getHomeUserProducts(@RequestParam Timestamp date,
+    public BaseResponse<GetHomeUserProductsResponse> getHomeUserProducts(@RequestParam LocalDate date,
             @RequestParam Long userId) {
         log.debug("[UserProductController.getHomeUserProducts]");
 

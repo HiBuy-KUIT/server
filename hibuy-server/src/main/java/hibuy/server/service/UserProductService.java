@@ -51,8 +51,8 @@ public class UserProductService {
     public GetHomeUserProductsResponse getHomeUserProducts(GetHomeUserProductsRequest request) {
         log.debug("[UserProductService.getUserProduct]");
 
-        int day = request.getTakeTimestamp().toLocalDateTime().getDayOfWeek().getValue();
-        LocalDate localDate = request.getTakeTimestamp().toLocalDateTime().toLocalDate();
+        int day = request.getTakeDate().getDayOfWeek().getValue();
+        LocalDate localDate = request.getTakeDate();
 
         //오늘 먹을 영양제
         List<DailyUserProductDto> todayUserProducts = userProductJpaRepository.findByUserAndDate(request.getUserId(), day);
