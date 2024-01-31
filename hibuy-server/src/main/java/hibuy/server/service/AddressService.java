@@ -51,7 +51,7 @@ public class AddressService {
 
     public GetAddressListResponse getAddressListById(Long userId) {
         List<Address> addresses = addressRepository.findAddressesByUserId(userId);
-        List<AddressDTO> addressDTOS = addresses.stream().map(AddressDTO::new).collect(toList());
-        return new GetAddressListResponse(addressDTOS);
+        List<AddressDTO> addressDTOs = addresses.stream().map(AddressDTO::new).collect(toList());
+        return new GetAddressListResponse(addressDTOs);
     }
 }
