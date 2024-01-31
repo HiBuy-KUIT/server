@@ -1,5 +1,7 @@
 package hibuy.server.service;
 
+import static hibuy.server.domain.Status.ACTIVE;
+import static hibuy.server.domain.Status.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import hibuy.server.domain.Product;
@@ -77,20 +79,19 @@ class BoolTakeServiceTest {
 
         PatchBoolTakeRequest patchBoolTakeRequest = new PatchBoolTakeRequest(
                 userProduct.getUserProductId(), Date.valueOf("2024-01-30"),
-                Time.valueOf("09:30:00"), "ACTIVE");
+                Time.valueOf("09:30:00"), ACTIVE);
 
         //when
         userProductService.getHomeUserProducts(LocalDate.of(2024,1,30), user.getUserId());
 
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(
-                userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).getStatus()).isEqualTo("INACTIVE");
+                userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).getStatus()).isEqualTo(INACTIVE);
 
         PatchBoolTakeResponse response = boolTakeService.updateBoolTake(
                 patchBoolTakeRequest);
 
         //then
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(response.getUserProductId(),
-                response.getTakeDateTime()).getStatus()).isEqualTo("ACTIVE");
-
+                Timestamp.valueOf(response.getTakeDateTime())).getStatus()).isEqualTo(ACTIVE);
     }
 }
