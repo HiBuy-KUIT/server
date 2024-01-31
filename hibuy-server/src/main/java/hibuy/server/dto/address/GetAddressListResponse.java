@@ -2,6 +2,6 @@ package hibuy.server.dto.address;
 
 import java.util.List;
 
-public class GetAddressesResponse {
+public class GetAddressListResponse {
     List<AddressDTO> addresses;
 }
