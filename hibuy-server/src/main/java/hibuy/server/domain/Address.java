@@ -21,7 +21,7 @@ public class Address {
     @Column(name = "address_id")
     private Long id;
 
-    @Column(name = "address_name")
+    @Column(name = "name")
     private String addressName;
 
     private String receiver;
@@ -38,7 +38,7 @@ public class Address {
     @Column(name = "detail_address")
     private String detailAddress;
 
-    @Column(nullable = false)
+    @Column(name = "default_address", nullable = false)
     private boolean isDefaultAddress;
 
     private String request;
