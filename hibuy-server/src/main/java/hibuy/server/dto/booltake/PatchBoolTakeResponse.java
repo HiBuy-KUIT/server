@@ -1,6 +1,7 @@
 package hibuy.server.dto.booltake;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,5 +10,5 @@ import lombok.Getter;
 public class PatchBoolTakeResponse {
 
     private Long userProductId;
-    private Timestamp takeDateTime;
+    private LocalDateTime takeDateTime;
 }

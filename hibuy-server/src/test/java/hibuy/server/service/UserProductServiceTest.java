@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import static hibuy.server.domain.Status.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import hibuy.server.domain.Product;
@@ -77,7 +78,7 @@ class UserProductServiceTest {
 
         List<DailyUserProductDto> test = new ArrayList<>();
         test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(), request.getOneTakeAmount()));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("09:30:00"), "INACTIVE"));
+        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("09:30:00"), INACTIVE));
 
         //then
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
@@ -88,7 +89,7 @@ class UserProductServiceTest {
                 .isEqualTo(test.get(0).getOneTakeAmount());
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
-                .isEqualTo("INACTIVE");
+                .isEqualTo(INACTIVE);
     }
 
     @Test
@@ -98,8 +99,8 @@ class UserProductServiceTest {
 
         List<DailyUserProductDto> test = new ArrayList<>();
         test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(), request.getOneTakeAmount()));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("12:30:00"), "INACTIVE"));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("21:30:00"), "INACTIVE"));
+        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("12:30:00"), INACTIVE));
+        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("21:30:00"), INACTIVE));
 
         //수정 전
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
@@ -116,8 +117,7 @@ class UserProductServiceTest {
 
         //when
         PutUserProductRequest putUserProductRequest = new PutUserProductRequest(
-                userProduct.getUserProductId(), 1, 150, timeList, dayList, 1, user.getUserId(),
-                product.getProductId());
+                userProduct.getUserProductId(), 1, 150, timeList, dayList, 1);
         userProductService.updateUserProduct(putUserProductRequest);
 
         //then
@@ -129,6 +129,6 @@ class UserProductServiceTest {
                 .isEqualTo(1);
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,31) ,user.getUserId())
                 .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
-                .isEqualTo("INACTIVE");
+                .isEqualTo(INACTIVE);
     }
 }

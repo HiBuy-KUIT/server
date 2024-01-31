@@ -1,5 +1,7 @@
 package hibuy.server.service;
 
+import static hibuy.server.domain.Status.INACTIVE;
+
 import hibuy.server.domain.*;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -87,7 +89,7 @@ public class UserProductService {
                 //날짜와 시간 결합
                 Timestamp takeTime = Timestamp.valueOf(LocalDateTime.of(localDate,
                         userProductTime.getTakeTime().toLocalTime()));
-                Status status = Status.ACTIVE;
+                Status status = INACTIVE;
 
                 BoolTake isTake = Optional.ofNullable(timestampBoolTakeMap.get(userProductId))
                         .map(inMap -> inMap.get(takeTime))
@@ -118,11 +120,11 @@ public class UserProductService {
         return new PutUserProductRequest(
                 userProductId, userProduct.getOneTakeAmount(), userProduct.getTotalAmount(), times,
                 days,
-                userProduct.getNotification(), userProduct.getUser().getUserId(),
-                userProduct.getProduct().getProductId()
+                userProduct.getNotification()
         );
     }
 
+    @Transactional
     public PutUserProductResponse updateUserProduct(PutUserProductRequest request) {
         log.debug("[UserProductService.updateUserProduct]");
 
@@ -171,6 +173,7 @@ public class UserProductService {
         return new PostUserProductResponse(userProduct.getId());
     }
 
+    @Transactional
     public DeleteUserProductResponse deleteUserProduct(Long userProductId) {
         log.debug("[UserProductService.deleteUserProduct]");
 
