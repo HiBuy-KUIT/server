@@ -15,21 +15,14 @@ import java.sql.Timestamp;
 public abstract class BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    protected Status status;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
+    protected Timestamp createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private Timestamp updatedAt;
+    protected Timestamp updatedAt;
 
-    protected void setStatusActive() {
-        this.status = Status.ACTIVE;
-    }
-
-    protected void updateStatus(Status status) {
-        this.status = status;
-    }
 }

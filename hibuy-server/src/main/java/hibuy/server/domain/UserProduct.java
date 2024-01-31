@@ -49,7 +49,7 @@ public class UserProduct extends BaseEntity{
         this.takeCount = 0;
         this.user = user;
         this.product = product;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 
     public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {

@@ -49,7 +49,7 @@ public class Product extends BaseEntity{
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
         this.category = category;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 
 }

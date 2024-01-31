@@ -31,10 +31,10 @@ public class BoolTake extends BaseEntity{
     public BoolTake(Timestamp takeDateTime, Status status, UserProduct userProduct) {
         this.takeDateTime = takeDateTime;
         this.userProduct = userProduct;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 
     public void updateBoolTake(Status status) {
-        this.updateStatus(status);
+        this.status = status;
     }
 }

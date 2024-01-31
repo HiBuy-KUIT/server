@@ -38,7 +38,7 @@ public class Sample extends BaseEntity{
         this.companyName = companyName;
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 
 }

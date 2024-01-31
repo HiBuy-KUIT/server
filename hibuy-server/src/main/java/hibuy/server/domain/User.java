@@ -33,6 +33,6 @@ public class User extends BaseEntity{
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 }

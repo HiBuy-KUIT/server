@@ -31,6 +31,6 @@ public class DailyTake extends BaseEntity{
     public DailyTake(Date takeDate, User user) {
         this.takeDate = takeDate;
         this.user = user;
-        this.setStatusActive();
+        this.status = Status.ACTIVE;
     }
 }
