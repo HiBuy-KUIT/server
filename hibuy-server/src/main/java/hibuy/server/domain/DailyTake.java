@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class DailyTake {
+public class DailyTake extends BaseEntity{
 
     @Id
     @Column(name = "dt_id")
@@ -24,24 +24,13 @@ public class DailyTake {
     @Column(name = "take_date", nullable = false)
     private Date takeDate;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     public DailyTake(Date takeDate, User user) {
         this.takeDate = takeDate;
-        this.status = Status.ACTIVE;
         this.user = user;
+        this.setStatusActive();
     }
 }

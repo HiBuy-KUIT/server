@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Product {
+public class Product extends BaseEntity{
 
     @Id
     @Column(name = "product_id")
@@ -42,17 +42,6 @@ public class Product {
     @Column(nullable = false)
     private String category;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
     public Product(String companyName, String productName, int price, String imageUrl, String productUrl, String category) {
         this.companyName = companyName;
         this.productName = productName;
@@ -60,7 +49,7 @@ public class Product {
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
         this.category = category;
-        this.status = Status.ACTIVE;
+        this.setStatusActive();
     }
 
 }

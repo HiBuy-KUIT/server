@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Sample {
+public class Sample extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,23 +33,12 @@ public class Sample {
     @Column(name = "product_url")
     private String productUrl;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
     public Sample(String productName, String companyName, String imageUrl, String productUrl) {
         this.productName = productName;
         this.companyName = companyName;
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
-        this.status = Status.ACTIVE;
+        this.setStatusActive();
     }
 
 }

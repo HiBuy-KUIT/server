@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class UserProduct {
+public class UserProduct extends BaseEntity{
 
     @Id
     @Column(name = "up_id")
@@ -30,16 +30,6 @@ public class UserProduct {
     private int notification;
 
     private int takeCount;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    private Timestamp updatedAt;
 
     @NotNull
     @ManyToOne(fetch = LAZY)
@@ -57,9 +47,9 @@ public class UserProduct {
         this.totalAmount = totalAmount;
         this.notification = notification;
         this.takeCount = 0;
-        this.status = Status.ACTIVE;
         this.user = user;
         this.product = product;
+        this.setStatusActive();
     }
 
     public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {

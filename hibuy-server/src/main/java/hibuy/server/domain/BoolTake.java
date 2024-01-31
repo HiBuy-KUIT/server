@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class BoolTake {
+public class BoolTake extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,28 +24,17 @@ public class BoolTake {
 
     private Timestamp takeDateTime;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "up_id")
     private UserProduct userProduct;
 
     public BoolTake(Timestamp takeDateTime, Status status, UserProduct userProduct) {
         this.takeDateTime = takeDateTime;
-        this.status = status;
         this.userProduct = userProduct;
+        this.setStatusActive();
     }
 
     public void updateBoolTake(Status status) {
-        this.status = status;
+        this.updateStatus(status);
     }
 }
