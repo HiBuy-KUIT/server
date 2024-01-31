@@ -2,11 +2,11 @@ package hibuy.server.dto.address;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class PostAddressRequest {
 
     public static final String PHONE_NUMBER_REGEX = "^010\\d{8}$";
