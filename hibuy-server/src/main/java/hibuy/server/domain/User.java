@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends BaseEntity{
 
     @Id
     @Column(name = "user_id")
@@ -28,17 +28,6 @@ public class User {
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
 
     public User(String name, String email, String phoneNumber) {
         this.name = name;
