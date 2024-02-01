@@ -7,6 +7,7 @@ import hibuy.server.dto.address.PostAddressResponse;
 import hibuy.server.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping
-    public BaseResponse<PostAddressResponse> addAddress(@RequestBody PostAddressRequest postAddressRequest){
+    public BaseResponse<PostAddressResponse> addAddress(@Validated @RequestBody PostAddressRequest postAddressRequest){
         log.debug("[AddressController.addAddress]");
         return new BaseResponse<>(addressService.addAddress(postAddressRequest));
     }
