@@ -1,7 +1,7 @@
 package hibuy.server.service;
 
 import hibuy.server.domain.Product;
-import hibuy.server.dto.product.GetProductResponse;
+import hibuy.server.dto.product.GetProductListResponse;
 import hibuy.server.dto.product.PostProductRequest;
 import hibuy.server.dto.product.PostProductResponse;
 import hibuy.server.repository.ProductRepository;
@@ -32,11 +32,13 @@ public class ProductService {
 
     }
 
-    public GetProductResponse getProductListByCategory(String category) {
+    public GetProductListResponse getProductListByCategory(String category) {
         log.debug("[ProductService.getProductListByCategory]");
-        return new GetProductResponse(productRepository.findProductsByCategory(category)
-                .stream()
-                .sorted()
-                .toList());
+        return new GetProductListResponse(productRepository.findProductsByCategory(category));
+    }
+
+    public GetProductListResponse getProductListByName(String name) {
+        log.debug("[ProductService.getProductListByName]");
+        return new GetProductListResponse(productRepository.findProductsByName(name));
     }
 }
