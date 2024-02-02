@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -31,7 +29,7 @@ public class BoolTake extends BaseEntity{
     public BoolTake(Timestamp takeDateTime, Status status, UserProduct userProduct) {
         this.takeDateTime = takeDateTime;
         this.userProduct = userProduct;
-        this.status = Status.ACTIVE;
+        this.status = status;
     }
 
     public void updateBoolTake(Status status) {
