@@ -43,7 +43,7 @@ public class Address {
 
     private String request;
 
-    private String status;
+    private Status status;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -68,7 +68,7 @@ public class Address {
         this.isDefaultAddress = isDefaultAddress;
         this.request = request;
         this.user = user;
-        this.status = "ACTIVE";
+        this.status = Status.ACTIVE;
     }
 
 }
