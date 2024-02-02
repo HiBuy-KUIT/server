@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class DateCount {
+public class DateCount extends BaseEntity {
 
     @Id
     @Column(name = "dc_id")
@@ -23,14 +23,6 @@ public class DateCount {
     @Column(name = "date_count", nullable = false)
     private int dateCount;
 
-    @CreatedDate
-    @Column(name = "created_at", updatable = false, nullable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -38,5 +30,6 @@ public class DateCount {
     public DateCount(User user) {
         this.dateCount = 0;
         this.user = user;
+        this.status = Status.ACTIVE;
     }
 }

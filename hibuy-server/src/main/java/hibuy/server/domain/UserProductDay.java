@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class UserProductDay {
+public class UserProductDay extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +34,9 @@ public class UserProductDay {
     @JoinColumn(name = "up_id")
     private UserProduct userProduct;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    private Timestamp updatedAt;
-
     public UserProductDay(int day, UserProduct userProduct) {
         this.takeDay = day;
         this.userProduct = userProduct;
+        this.status = Status.ACTIVE;
     }
 }
