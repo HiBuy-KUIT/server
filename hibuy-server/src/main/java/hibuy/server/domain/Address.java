@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Address {
+public class Address extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,16 +42,6 @@ public class Address {
     private boolean isDefaultAddress;
 
     private String request;
-
-    private Status status;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
