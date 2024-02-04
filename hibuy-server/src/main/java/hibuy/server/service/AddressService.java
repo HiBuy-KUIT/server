@@ -2,10 +2,7 @@ package hibuy.server.service;
 
 import hibuy.server.domain.Address;
 import hibuy.server.domain.User;
-import hibuy.server.dto.address.AddressDTO;
-import hibuy.server.dto.address.GetAddressListResponse;
-import hibuy.server.dto.address.PostAddressRequest;
-import hibuy.server.dto.address.PostAddressResponse;
+import hibuy.server.dto.address.*;
 import hibuy.server.repository.AddressRepository;
 import hibuy.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -31,6 +27,10 @@ public class AddressService {
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+
+        if (request.getIsDefaultAddress()){
+            disablePrevDefaultAddress();
+        }
 
         Address address = addressRepository.save(new Address(
                 request.getAddressName(),
@@ -53,5 +53,23 @@ public class AddressService {
         List<Address> addresses = addressRepository.findAddressesByUserId(userId);
         List<AddressDTO> addressDTOs = addresses.stream().map(AddressDTO::new).collect(toList());
         return new GetAddressListResponse(addressDTOs);
+    }
+
+
+    public PatchAddressResponse updateDefaultAddress(PatchAddressRequest request) {
+
+        disablePrevDefaultAddress();
+
+        Address newAddress = addressRepository.findById(request.getAddressId())
+                .orElseThrow(() -> new RuntimeException("Address not found with id " + request.getAddressId()));
+
+        newAddress.updateAddress(true, request.getRequest());
+        return new PatchAddressResponse(newAddress.getId());
+        
+    }
+
+    protected void disablePrevDefaultAddress() {
+        Address currentDefaultAddress = addressRepository.findDefaultAddress();
+        currentDefaultAddress.updateAddress(false, currentDefaultAddress.getRequest());
     }
 }

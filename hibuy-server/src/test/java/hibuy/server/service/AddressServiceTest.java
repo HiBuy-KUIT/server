@@ -2,11 +2,13 @@ package hibuy.server.service;
 
 import hibuy.server.domain.Address;
 import hibuy.server.domain.User;
+import hibuy.server.dto.address.PatchAddressRequest;
+import hibuy.server.dto.address.PatchAddressResponse;
 import hibuy.server.dto.address.PostAddressRequest;
 import hibuy.server.dto.address.PostAddressResponse;
 import hibuy.server.repository.AddressRepository;
 import hibuy.server.repository.UserRepository;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -61,5 +62,30 @@ class AddressServiceTest {
 
         // then
         assertThat(findAddress).isEqualTo(address);
+    }
+
+    @Test
+    void 기본_배송지_해제() {
+        addressService.disablePrevDefaultAddress();
+        Assertions.assertNull(addressRepository.findDefaultAddress());
+    }
+
+    @Test
+    void 기본_배송지_수정() {
+
+        //given
+        Address address2 = new Address("Address2", "박장우", "010-1234-5678", "01234", "기본주소", "상세주소", false, "요청사항", user);
+        addressRepository.save(address2);
+
+        // 기존에 존재하는 address를 해제하고, address2를 기본 배송지로 수정하는 요청
+        PatchAddressRequest patchRequest = new PatchAddressRequest(address2.getId(), "request");
+        PatchAddressResponse response = addressService.updateDefaultAddress(patchRequest);
+
+        //when
+        Address defaultAddress = addressRepository.findDefaultAddress();
+
+        //then
+        assertThat(address2).isEqualTo(defaultAddress);
+
     }
 }

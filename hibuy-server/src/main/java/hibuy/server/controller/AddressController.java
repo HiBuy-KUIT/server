@@ -1,9 +1,7 @@
 package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
-import hibuy.server.dto.address.GetAddressListResponse;
-import hibuy.server.dto.address.PostAddressRequest;
-import hibuy.server.dto.address.PostAddressResponse;
+import hibuy.server.dto.address.*;
 import hibuy.server.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +26,13 @@ public class AddressController {
     public BaseResponse<GetAddressListResponse> getAddressList(@RequestParam Long userId){
         log.debug("[AddressController.getAddressList]");
         return new BaseResponse<>(addressService.getAddressListById(userId));
+    }
+
+    @PatchMapping
+    public BaseResponse<PatchAddressResponse> updateDefaultAddress(@RequestBody PatchAddressRequest request){
+        log.debug("[AddressController.updateAddress]");
+        return new BaseResponse<>(addressService.updateDefaultAddress(request));
+
     }
 
 }
