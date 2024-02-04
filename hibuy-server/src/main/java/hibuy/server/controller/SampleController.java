@@ -6,6 +6,7 @@ import hibuy.server.dto.sample.PostSampleRequest;
 import hibuy.server.service.SampleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class SampleController {
     private final SampleService sampleService;
 
     @PostMapping()
-    public BaseResponse<String> addSample(@RequestBody PostSampleRequest postSampleRequest) {
+    public BaseResponse<String> addSample(@Validated @RequestBody PostSampleRequest postSampleRequest) {
 
         log.debug("[SampleController.addSample]");
 
