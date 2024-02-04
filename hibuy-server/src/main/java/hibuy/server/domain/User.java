@@ -16,6 +16,8 @@ public class User extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    private Long kakaoUserId;
+
     @Column(nullable = false)
     private String name;
 
@@ -26,6 +28,14 @@ public class User extends BaseEntity{
     private String phoneNumber;
 
     public User(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.status = Status.ACTIVE;
+    }
+
+    public User(Long kakaoUserId, String name, String email, String phoneNumber) {
+        this.kakaoUserId = kakaoUserId;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
