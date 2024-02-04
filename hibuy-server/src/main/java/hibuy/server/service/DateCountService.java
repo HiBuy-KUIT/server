@@ -21,7 +21,9 @@ public class DateCountService {
     public GetDateCountResponse getUserDateCount(Long userId) {
 
         log.debug("[DateCountService.getUserDateCount]");
-        DateCount dateCount = dateCountRepository.findDateCountByUserId(userId);
+
+        DateCount dateCount = dateCountRepository.findDateCountByUserId(userId)
+                .orElseThrow(() -> new DatabaseException(DATABASE_ERROR));
         return new GetDateCountResponse(dateCount.getUser().getUserId(), dateCount.getDateCount());
 
     }

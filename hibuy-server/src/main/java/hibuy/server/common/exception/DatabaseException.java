@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class DatabaseException extends RuntimeException{
 
     private final ResponseStatus exceptionStatus;
+
+    public DatabaseException(ResponseStatus exceptionStatus) {
+        super(exceptionStatus.getMessage());
+        this.exceptionStatus = exceptionStatus;
+    }
 }
