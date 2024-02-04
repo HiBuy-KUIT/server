@@ -4,17 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.sql.Timestamp;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Address extends BaseEntity{
+public class Address extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +55,11 @@ public class Address extends BaseEntity{
         this.request = request;
         this.user = user;
         this.status = Status.ACTIVE;
+    }
+
+    public void updateAddress(Boolean isDefaultAddress, String request) {
+        this.isDefaultAddress = isDefaultAddress;
+        this.request = request;
     }
 
 }
