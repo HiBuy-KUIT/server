@@ -32,7 +32,7 @@ public class SampleService {
 
     public List<GetSampleResponse> getSamples() {
 
-        log.debug("[SampleService.addSample]");
+        log.debug("[SampleService.getSamples]");
 
         return sampleRepository.findAll().stream()
                 .map(sample -> new GetSampleResponse(
