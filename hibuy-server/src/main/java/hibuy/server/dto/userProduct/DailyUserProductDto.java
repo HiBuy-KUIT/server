@@ -1,5 +1,7 @@
 package hibuy.server.dto.userProduct;
 
+import hibuy.server.domain.Status;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -15,13 +17,15 @@ public class DailyUserProductDto {
 
     private int oneTakeAmount;
 
-    private List<TakeStatusDto> takeStatusDtoList;
+    private Time takeTime;
 
+    private Status status;
 
-    public DailyUserProductDto(Long userProductId, String productName, int oneTakeAmount) {
+    public DailyUserProductDto(Long userProductId, String productName, int oneTakeAmount, Time takeTime, Status status) {
         this.userProductId = userProductId;
         this.productName = productName;
         this.oneTakeAmount = oneTakeAmount;
-        this.takeStatusDtoList = new ArrayList<>();
+        this.takeTime = takeTime;
+        this.status = status;
     }
 }

@@ -9,7 +9,6 @@ import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
-import hibuy.server.dto.userProduct.TakeStatusDto;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
 import hibuy.server.repository.UserProductJpaRepository;
@@ -77,8 +76,8 @@ class UserProductServiceTest {
         PostUserProductResponse userProduct = userProductService.createUserProduct(request);
 
         List<DailyUserProductDto> test = new ArrayList<>();
-        test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(), request.getOneTakeAmount()));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("09:30:00"), INACTIVE));
+        test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(),
+                request.getOneTakeAmount(), Time.valueOf("09:30:00"), INACTIVE));
 
         //then
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
@@ -88,7 +87,7 @@ class UserProductServiceTest {
                 .getUserProductDtoList().get(0).getOneTakeAmount())
                 .isEqualTo(test.get(0).getOneTakeAmount());
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
-                .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
+                .getUserProductDtoList().get(0).getStatus())
                 .isEqualTo(INACTIVE);
     }
 
@@ -98,9 +97,10 @@ class UserProductServiceTest {
         PostUserProductResponse userProduct = userProductService.createUserProduct(request);
 
         List<DailyUserProductDto> test = new ArrayList<>();
-        test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(), request.getOneTakeAmount()));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("12:30:00"), INACTIVE));
-        test.get(0).getTakeStatusDtoList().add(new TakeStatusDto(Time.valueOf("21:30:00"), INACTIVE));
+        test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(),
+                request.getOneTakeAmount(), Time.valueOf("12:30:00"), INACTIVE));
+        test.add(new DailyUserProductDto(userProduct.getUserProductId(), product.getProductName(),
+                request.getOneTakeAmount(), Time.valueOf("21:30:00"), INACTIVE));
 
         //수정 전
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,23) ,user.getUserId())
@@ -128,7 +128,7 @@ class UserProductServiceTest {
                 .getUserProductDtoList().get(0).getOneTakeAmount())
                 .isEqualTo(1);
         assertThat(userProductService.getHomeUserProducts(LocalDate.of(2024,1,31) ,user.getUserId())
-                .getUserProductDtoList().get(0).getTakeStatusDtoList().get(0).getStatus())
+                .getUserProductDtoList().get(0).getStatus())
                 .isEqualTo(INACTIVE);
     }
 }

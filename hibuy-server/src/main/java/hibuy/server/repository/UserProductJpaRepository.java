@@ -1,6 +1,7 @@
 package hibuy.server.repository;
 
 import hibuy.server.dto.userProduct.DailyUserProductDto;
+import hibuy.server.dto.userProduct.UserProductDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
@@ -14,16 +15,16 @@ public class UserProductJpaRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public List<DailyUserProductDto> findByUserAndDate(Long userId, int day) {
+    public List<UserProductDto> findByUserAndDate(Long userId, int day) {
 
         return em.createQuery(
-                "select new hibuy.server.dto.userProduct.DailyUserProductDto("
+                "select new hibuy.server.dto.userProduct.UserProductDto("
                         + " up.id, p.productName, up.oneTakeAmount)"
                         + " from UserProduct up"
                         + " join fetch Product p on up.product.id=p.id"
                         + " join UserProductDay upd on upd.userProduct.id=up.id and upd.takeDay=:day"
                         + " where up.user.userId=:userId",
-                DailyUserProductDto.class)
+                UserProductDto.class)
                 .setParameter("day", day)
                 .setParameter("userId", userId)
                 .getResultList();
