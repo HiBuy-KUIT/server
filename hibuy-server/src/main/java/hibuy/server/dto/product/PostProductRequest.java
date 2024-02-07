@@ -14,4 +14,7 @@ public class PostProductRequest {
     private String imageUrl;
     private String productUrl;
     private String category;
+    private int oneTakeAmount;
+    private int totalAmount;
+    private int takeCount;
 }
