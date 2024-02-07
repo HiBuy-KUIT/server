@@ -17,7 +17,6 @@ public class Product extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-
     @Column(name = "company_name", nullable = false)
     private String companyName;
 
@@ -38,7 +37,17 @@ public class Product extends BaseEntity{
     @Column(nullable = false)
     private String category;
 
-    public Product(String companyName, String productName, int price, String imageUrl, String productUrl, String category) {
+    @Column(name = "one_take_amount")
+    private int oneTakeAmount;
+
+    @Column(name = "total_amount")
+    private int totalAmount;
+
+    @Column(name = "take_count")
+    private int takeCount;
+
+    public Product(String companyName, String productName, int price, String imageUrl, String productUrl,
+                   String category, int oneTakeAmount, int totalAmount, int takeCount) {
         this.companyName = companyName;
         this.productName = productName;
         this.price = price;
@@ -46,6 +55,9 @@ public class Product extends BaseEntity{
         this.productUrl = productUrl;
         this.category = category;
         this.status = Status.ACTIVE;
+        this.oneTakeAmount = oneTakeAmount;
+        this.totalAmount = totalAmount;
+        this.takeCount = takeCount;
     }
 
 }

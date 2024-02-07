@@ -28,24 +28,21 @@ public class UserProduct extends BaseEntity{
 
     private int takeCount;
 
+    private String productName;
+
     @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    public UserProduct(int oneTakeAmount, int totalAmount, int notification,
-            User user, Product product) {
+    public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
+            User user) {
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.notification = notification;
         this.takeCount = 0;
+        this.productName = productName;
         this.user = user;
-        this.product = product;
         this.status = Status.ACTIVE;
     }
 

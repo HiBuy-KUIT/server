@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserProductService {
 
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;
     private final UserProductRepository userProductRepository;
     private final UserProductTimeRepository userProductTimeRepository;
     private final UserProductDayRepository userProductDayRepository;
@@ -51,10 +50,6 @@ public class UserProductService {
         log.debug("[UserProductService.getUserProduct]");
 
         int day = localDate.getDayOfWeek().getValue();
-
-        // id, name, onetakeamount = UserProductDto
-        // 여기에 딸린 시간이랑 섭취여부 -> 여기서 dto를 만들어
-        
 
         //오늘 먹을 영양제
         List<UserProductDto> userProductDtos = userProductJpaRepository.findByUserAndDate(userId, day);
@@ -164,15 +159,15 @@ public class UserProductService {
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + request.getProductId()));
+
         UserProduct userProduct = new UserProduct(
                 request.getOneTakeAmount(),
                 request.getTotalAmount(),
                 request.getNotification(),
-                user,
-                product
+                request.getProductName(),
+                user
         );
+
         userProductRepository.save(userProduct);
 
         for (Time time : request.getTakeTimeList()) {

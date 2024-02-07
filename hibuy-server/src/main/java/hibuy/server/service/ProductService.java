@@ -2,6 +2,7 @@ package hibuy.server.service;
 
 import hibuy.server.domain.Product;
 import hibuy.server.dto.product.GetProductListResponse;
+import hibuy.server.dto.product.GetProductSearchListResponse;
 import hibuy.server.dto.product.PostProductRequest;
 import hibuy.server.dto.product.PostProductResponse;
 import hibuy.server.repository.ProductRepository;
@@ -26,7 +27,10 @@ public class ProductService {
                         postProductRequest.getPrice(),
                         postProductRequest.getImageUrl(),
                         postProductRequest.getProductUrl(),
-                        postProductRequest.getCategory()));
+                        postProductRequest.getCategory(),
+                        postProductRequest.getOneTakeAmount(),
+                        postProductRequest.getTotalAmount(),
+                        postProductRequest.getTakeCount()));
 
         return new PostProductResponse(product.getProductId());
 
@@ -37,8 +41,8 @@ public class ProductService {
         return new GetProductListResponse(productRepository.findProductsByCategory(category));
     }
 
-    public GetProductListResponse getProductListByName(String name) {
+    public GetProductSearchListResponse getProductListByName(String name) {
         log.debug("[ProductService.getProductListByName]");
-        return new GetProductListResponse(productRepository.findProductsByName(name));
+        return new GetProductSearchListResponse(productRepository.findProductsByName(name));
     }
 }
