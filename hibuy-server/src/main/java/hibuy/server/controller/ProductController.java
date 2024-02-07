@@ -9,6 +9,7 @@ import hibuy.server.dto.product.PostProductResponse;
 import hibuy.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -19,7 +20,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public BaseResponse<PostProductResponse> addProduct(@RequestBody PostProductRequest postProductRequest) {
+    public BaseResponse<PostProductResponse> addProduct(@Validated @RequestBody PostProductRequest postProductRequest) {
         log.debug("[ProductController.addProduct]");
         return new BaseResponse<>(productService.addProduct(postProductRequest));
     }
