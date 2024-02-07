@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@JsonPropertyOrder({"code", "status", "message", "timestamp"})
+@JsonPropertyOrder({"code", "status", "message", "timestamp", "exceptions"})
 public class RequestErrorResponse implements ResponseStatus {
 
     private final int code;
