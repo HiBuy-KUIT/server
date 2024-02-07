@@ -8,8 +8,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TakeStatusDto {
+public class UserProductDto {
 
-    private Time takeTime;
-    private Status status;
+    private Long userProductId;
+
+    private String productName;
+
+    private int oneTakeAmount;
 }

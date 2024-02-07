@@ -10,7 +10,7 @@ import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
-import hibuy.server.dto.userProduct.TakeStatusDto;
+import hibuy.server.dto.userProduct.UserProductDto;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
 import hibuy.server.repository.UserProductDayRepository;
@@ -22,6 +22,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +52,19 @@ public class UserProductService {
 
         int day = localDate.getDayOfWeek().getValue();
 
+        // id, name, onetakeamount = UserProductDto
+        // 여기에 딸린 시간이랑 섭취여부 -> 여기서 dto를 만들어
+        
+
         //오늘 먹을 영양제
-        List<DailyUserProductDto> todayUserProducts = userProductJpaRepository.findByUserAndDate(userId, day);
+        List<UserProductDto> userProductDtos = userProductJpaRepository.findByUserAndDate(userId, day);
+
+        //리텁배열
+        List<DailyUserProductDto> dailyUserProductDtos = new ArrayList<>();
 
         //의 UserProduct id List
-        List<Long> userProductIds = todayUserProducts.stream()
-                .map(DailyUserProductDto::getUserProductId)
+        List<Long> userProductIds = userProductDtos.stream()
+                .map(UserProductDto::getUserProductId)
                 .toList();
 
         //들의 섭취 시간 List, Map
@@ -81,11 +89,11 @@ public class UserProductService {
         .orElse(Collections.emptyMap());
 
         //각 UserProduct
-        for (DailyUserProductDto dailyUserProductDto : todayUserProducts) {
-            Long userProductId = dailyUserProductDto.getUserProductId();
+        for (UserProductDto userProductDto : userProductDtos) {
+            Long userProductId = userProductDto.getUserProductId();
 
             //의 각 섭취시간별 섭취여부 판별
-            for (UserProductTime userProductTime : userProductTimeMap.get(dailyUserProductDto.getUserProductId())) {
+            for (UserProductTime userProductTime : userProductTimeMap.get(userProductId)) {
                 //날짜와 시간 결합
                 Timestamp takeTime = Timestamp.valueOf(LocalDateTime.of(localDate,
                         userProductTime.getTakeTime().toLocalTime()));
@@ -99,15 +107,19 @@ public class UserProductService {
                 if (isTake == null) {
                     boolTakeRepository.save(
                             new BoolTake(takeTime, status, userProductRepository.findById(
-                                    dailyUserProductDto.getUserProductId()).orElseThrow()));
+                                    userProductDto.getUserProductId()).orElseThrow()));
                 } else {
                     status = isTake.getStatus();
                 }
-                dailyUserProductDto.getTakeStatusDtoList().add(new TakeStatusDto(userProductTime.getTakeTime(), status));
+//                dailyUserProductDto.getTakeStatusDtoList().add(new UserProductDto(userProductTime.getTakeTime(), status));
+                dailyUserProductDtos.add(
+                        new DailyUserProductDto(userProductId, userProductDto.getProductName(),
+                                userProductDto.getOneTakeAmount(),
+                                userProductTime.getTakeTime(), status));
             }
         }
 
-        return new GetHomeUserProductsResponse(todayUserProducts);
+        return new GetHomeUserProductsResponse(dailyUserProductDtos);
     }
 
     public PutUserProductRequest getUserProduct(Long userProductId) {
