@@ -3,6 +3,7 @@ package hibuy.server.controller;
 import hibuy.server.common.response.BaseResponse;
 
 import hibuy.server.dto.product.GetProductListResponse;
+import hibuy.server.dto.product.GetProductSearchListResponse;
 import hibuy.server.dto.product.PostProductRequest;
 import hibuy.server.dto.product.PostProductResponse;
 import hibuy.server.service.ProductService;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public BaseResponse<GetProductListResponse> getProductByName(@RequestParam String name){
+    public BaseResponse<GetProductSearchListResponse> getProductByName(@RequestParam String name){
         log.debug("[ProductController.getProductByName]");
         return new BaseResponse<>(productService.getProductListByName(name));
     }
