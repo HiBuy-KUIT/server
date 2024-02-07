@@ -51,10 +51,6 @@ public class UserProductService {
 
         int day = localDate.getDayOfWeek().getValue();
 
-        // id, name, onetakeamount = UserProductDto
-        // 여기에 딸린 시간이랑 섭취여부 -> 여기서 dto를 만들어
-        
-
         //오늘 먹을 영양제
         List<UserProductDto> userProductDtos = userProductJpaRepository.findByUserAndDate(userId, day);
 

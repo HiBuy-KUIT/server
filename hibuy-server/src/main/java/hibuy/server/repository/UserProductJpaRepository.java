@@ -19,9 +19,8 @@ public class UserProductJpaRepository {
 
         return em.createQuery(
                 "select new hibuy.server.dto.userProduct.UserProductDto("
-                        + " up.id, p.productName, up.oneTakeAmount)"
+                        + " up.id, up.productName, up.oneTakeAmount)"
                         + " from UserProduct up"
-                        + " join fetch Product p on up.product.id=p.id"
                         + " join UserProductDay upd on upd.userProduct.id=up.id and upd.takeDay=:day"
                         + " where up.user.userId=:userId",
                 UserProductDto.class)
