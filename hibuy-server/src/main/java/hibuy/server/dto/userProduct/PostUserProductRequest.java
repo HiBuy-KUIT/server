@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostUserProductRequest {
 
+    @NotBlank(message = "제품 이름을 입력해주세요.")
+    private String productName;
+
     //1회 섭취량
     @Positive
     @NotBlank(message = "1회 섭취량을 입력해주세요.")
@@ -34,7 +37,4 @@ public class PostUserProductRequest {
     private int notification;
 
     private Long userId;
-
-    @NotBlank(message = "섭취하실 제품을 선택해주세요.")
-    private Long productId;
 }
