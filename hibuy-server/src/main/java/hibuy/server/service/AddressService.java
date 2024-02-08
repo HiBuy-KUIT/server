@@ -28,7 +28,7 @@ public class AddressService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
 
-        if (request.getIsDefaultAddress()){
+        if (request.getDefaultAddress()){
             disablePrevDefaultAddress();
         }
 
@@ -39,7 +39,7 @@ public class AddressService {
                 request.getZipCode(),
                 request.getBasicAddress(),
                 request.getDetailAddress(),
-                request.getIsDefaultAddress(),
+                request.getDefaultAddress(),
                 request.getRequest(),
                 user
         ));

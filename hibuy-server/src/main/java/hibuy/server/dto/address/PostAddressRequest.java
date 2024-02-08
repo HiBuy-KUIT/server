@@ -28,7 +28,7 @@ public class PostAddressRequest {
     @NotEmpty
     private String detailAddress;
 
-    private Boolean isDefaultAddress;
+    private Boolean defaultAddress;
 
     private String request;
 

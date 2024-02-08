@@ -13,6 +13,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Query("SELECT a FROM Address a JOIN FETCH a.user u WHERE u.userId = :user_id AND a.status = 'ACTIVE' AND u.status = 'ACTIVE'")
     List<Address> findAddressesByUserId(@Param("user_id") Long userId);
 
-    @Query("SELECT a FROM Address a WHERE a.isDefaultAddress = true AND a.status = 'ACTIVE'")
+    @Query("SELECT a FROM Address a WHERE a.defaultAddress = true AND a.status = 'ACTIVE'")
     Address findDefaultAddress();
 }

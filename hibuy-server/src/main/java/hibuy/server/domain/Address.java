@@ -35,7 +35,7 @@ public class Address extends BaseEntity {
     private String detailAddress;
 
     @Column(name = "default_address", nullable = false)
-    private boolean isDefaultAddress;
+    private boolean defaultAddress;
 
     private String request;
 
@@ -44,21 +44,21 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Address(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean isDefaultAddress, String request, User user) {
+    public Address(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean defaultAddress, String request, User user) {
         this.addressName = addressName;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
         this.zipCode = zipCode;
         this.basicAddress = basicAddress;
         this.detailAddress = detailAddress;
-        this.isDefaultAddress = isDefaultAddress;
+        this.defaultAddress = defaultAddress;
         this.request = request;
         this.user = user;
         this.status = Status.ACTIVE;
     }
 
     public void updateAddress(Boolean isDefaultAddress, String request) {
-        this.isDefaultAddress = isDefaultAddress;
+        this.defaultAddress = isDefaultAddress;
         this.request = request;
     }
 
