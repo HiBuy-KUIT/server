@@ -34,7 +34,7 @@ class AddressServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("jangwoo", "jangwoopark@naver.com", "010-1234-5678");
+        user = new User(1L, "jangwoo", "jangwoopark@naver.com", "010-1234-5678");
         userRepository.save(user);
 
         address = new Address("장우네 집", "박장우", "010-1234-5678", "01234", "기본주소", "상세주소", true, "요청사항", user);
@@ -67,7 +67,8 @@ class AddressServiceTest {
     @Test
     void 기본_배송지_해제() {
         addressService.disablePrevDefaultAddress();
-        Assertions.assertNull(addressRepository.findDefaultAddress());
+
+        Assertions.assertNull(addressRepository.findDefaultAddress().get());
     }
 
     @Test
@@ -82,10 +83,12 @@ class AddressServiceTest {
         PatchAddressResponse response = addressService.updateDefaultAddress(patchRequest);
 
         //when
-        Address defaultAddress = addressRepository.findDefaultAddress();
+        Address defaultAddress = addressRepository.findDefaultAddress().orElseThrow();
 
         //then
         assertThat(address2).isEqualTo(defaultAddress);
 
     }
+
+
 }
