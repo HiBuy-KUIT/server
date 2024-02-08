@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,7 +29,7 @@ public class AddressService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
 
-        if (request.getDefaultAddress()){
+        if (request.getDefaultAddress()) {
             disablePrevDefaultAddress();
         }
 
@@ -65,11 +66,14 @@ public class AddressService {
 
         newAddress.updateAddress(true, request.getRequest());
         return new PatchAddressResponse(newAddress.getId());
-        
+
     }
 
     protected void disablePrevDefaultAddress() {
-        Address currentDefaultAddress = addressRepository.findDefaultAddress();
-        currentDefaultAddress.updateAddress(false, currentDefaultAddress.getRequest());
+        Optional<Address> addressOptional = addressRepository.findDefaultAddress();
+        if (addressOptional.isPresent()) {
+            Address currentDefaultAddress = addressOptional.get();
+            currentDefaultAddress.updateAddress(false, currentDefaultAddress.getRequest());
+        }
     }
 }

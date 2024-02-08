@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
@@ -14,5 +15,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     List<Address> findAddressesByUserId(@Param("user_id") Long userId);
 
     @Query("SELECT a FROM Address a WHERE a.defaultAddress = true AND a.status = 'ACTIVE'")
-    Address findDefaultAddress();
+    Optional<Address> findDefaultAddress();
 }
