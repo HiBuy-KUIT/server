@@ -24,7 +24,7 @@ public class KakaoService {
 
     @Value("${kakao.oauth2.client_id}") private String clientId;
     @Value("${kakao.oauth2.redirect_uri}") private String redirectUri;
-    @Value("${KAKAO_CLIENT_SECRET}") private String clientSecret;
+    @Value("${kakao.oauth2.client_secret}") private String clientSecret;
 
     public String getAccessToken(String code) {
 
