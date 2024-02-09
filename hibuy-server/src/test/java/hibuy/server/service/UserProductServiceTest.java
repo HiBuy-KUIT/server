@@ -45,8 +45,8 @@ class UserProductServiceTest {
     public void setUp() {
         user = new User("bzun", "email_bzun", "1111");
         userRepository.save(user);
-
-        product = new Product("company", "product", 30000, "imageUrl", "productUrl", "lactofit");
+        product = new Product("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
+                100, 0);
         productRepository.save(product);
 
         timeList = new ArrayList<>();
@@ -57,8 +57,8 @@ class UserProductServiceTest {
         dayList.add(2);
         dayList.add(4);
 
-        request = new PostUserProductRequest(2, 100, timeList, dayList, 1,
-                user.getUserId(), product.getProductId());
+        request = new PostUserProductRequest("product", 2, 100, timeList, dayList, 1,
+                user.getUserId());
     }
     @Test
     public void createUserProduct() {
