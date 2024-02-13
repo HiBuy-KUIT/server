@@ -8,11 +8,14 @@ import hibuy.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Slf4j
@@ -35,14 +38,14 @@ public class KakaoService {
 
         KakaoTokenResponse responseBody = webClient.post()
                 .uri(requestUrl)
-                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+                .header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8")
                 .bodyValue(buildAccessTokenRequestBody(code))
                 .retrieve()
                 .bodyToMono(KakaoTokenResponse.class)
                 .doOnError(error -> {
                     log.error("do on error: " + error);
-                })
-                .block();
+                    log.error("error code: " + error.getMessage());
+                }).block();
 
         return responseBody.getAccess_token();
     }
@@ -78,6 +81,7 @@ public class KakaoService {
         }
 
         return new LoginResponse(
+                kakaoUserInfoResponse.getId(),
                 kakaoUserInfoResponse.getKakao_account().getName(),
                 kakaoUserInfoResponse.getKakao_account().getEmail(),
                 kakaoUserInfoResponse.getKakao_account().getPhone_number());
@@ -90,7 +94,7 @@ public class KakaoService {
         params.add("grant_type", "authorization_code");
         params.add("client_id", clientId);
         params.add("client_secret", clientSecret);
-        params.add("redirect_uri", redirectUri);
+        params.add("redirect_uri", URLEncoder.encode(redirectUri, StandardCharsets.UTF_8));
         params.add("code", code);
         return params;
     }

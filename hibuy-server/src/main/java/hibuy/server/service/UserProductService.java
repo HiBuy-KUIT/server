@@ -2,6 +2,8 @@ package hibuy.server.service;
 
 import static hibuy.server.domain.Status.INACTIVE;
 
+import hibuy.server.common.exception.DatabaseException;
+import hibuy.server.common.response.status.BaseExceptionResponseStatus;
 import hibuy.server.domain.*;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
@@ -12,9 +14,7 @@ import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.dto.userProduct.UserProductDto;
 import hibuy.server.repository.BoolTakeRepository;
-import hibuy.server.repository.ProductRepository;
 import hibuy.server.repository.UserProductDayRepository;
-import hibuy.server.repository.UserProductJpaRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserProductTimeRepository;
 import hibuy.server.repository.UserRepository;
@@ -42,7 +42,6 @@ public class UserProductService {
     private final UserProductRepository userProductRepository;
     private final UserProductTimeRepository userProductTimeRepository;
     private final UserProductDayRepository userProductDayRepository;
-    private final UserProductJpaRepository userProductJpaRepository;
     private final BoolTakeRepository boolTakeRepository;
 
     public GetHomeUserProductsResponse getHomeUserProducts(LocalDate localDate, Long userId) {
@@ -52,9 +51,9 @@ public class UserProductService {
         int day = localDate.getDayOfWeek().getValue();
 
         //오늘 먹을 영양제
-        List<UserProductDto> userProductDtos = userProductJpaRepository.findByUserAndDate(userId, day);
+        List<UserProductDto> userProductDtos = userProductRepository.findByUserAndDate(day, userId);
 
-        //리텁배열
+        //리턴배열
         List<DailyUserProductDto> dailyUserProductDtos = new ArrayList<>();
 
         //의 UserProduct id List
@@ -120,7 +119,9 @@ public class UserProductService {
     public PutUserProductRequest getUserProduct(Long userProductId) {
         log.debug("[UserProductService.getUserProduct]");
 
-        UserProduct userProduct = userProductRepository.findById(userProductId).orElseThrow();
+        UserProduct userProduct = userProductRepository.findById(userProductId)
+                .orElseThrow(() -> new DatabaseException(BaseExceptionResponseStatus.DATABASE_ERROR));
+
         List<Integer> days = userProductDayRepository.findByUpId(userProductId);
         List<Time> times = userProductTimeRepository.findByUpId(userProductId);
 
