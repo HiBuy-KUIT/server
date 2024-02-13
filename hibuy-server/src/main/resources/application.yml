@@ -26,6 +26,7 @@ server:
 
 kakao:
     oauth2:
-        redirect_uri: ${KAKAO_REDIRECT_URI}
+#        redirect_uri: ${KAKAO_REDIRECT_URI}
+        redirect_uri: "http://13.55.117.91:8080/login/oauth2/code/kakao"
         client_id: ${KAKAO_REST_API_KEY}
         client_secret: ${KAKAO_CLIENT_SECRET}
