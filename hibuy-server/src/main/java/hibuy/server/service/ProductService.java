@@ -1,14 +1,13 @@
 package hibuy.server.service;
 
 import hibuy.server.domain.Product;
-import hibuy.server.dto.product.GetProductListResponse;
-import hibuy.server.dto.product.GetProductSearchListResponse;
-import hibuy.server.dto.product.PostProductRequest;
-import hibuy.server.dto.product.PostProductResponse;
+import hibuy.server.dto.product.*;
 import hibuy.server.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -44,5 +43,17 @@ public class ProductService {
     public GetProductSearchListResponse getProductListByName(String name) {
         log.debug("[ProductService.getProductListByName]");
         return new GetProductSearchListResponse(productRepository.findProductsByName(name));
+    }
+
+    public GetProductInfoResponse getProductInfo(Long productId) {
+        log.debug("[ProductService.getProductInfoResponse]");
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found with id " + productId));
+
+        return new GetProductInfoResponse(
+                product.getProductName(),
+                product.getOneTakeAmount(),
+                product.getTotalAmount(),
+                product.getTakeCount()
+        );
     }
 }
