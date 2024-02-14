@@ -65,6 +65,7 @@ public class AddressService {
                 .orElseThrow(() -> new RuntimeException("Address not found with id " + request.getAddressId()));
 
         newAddress.updateAddress(true, request.getRequest());
+        addressRepository.save(newAddress);
         return new PatchAddressResponse(newAddress.getId());
 
     }
