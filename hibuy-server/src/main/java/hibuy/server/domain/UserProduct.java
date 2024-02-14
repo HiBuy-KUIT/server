@@ -30,7 +30,6 @@ public class UserProduct extends BaseEntity{
 
     private String productName;
 
-
     @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
