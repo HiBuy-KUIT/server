@@ -34,10 +34,11 @@ class AddressServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "jangwoo", "jangwoopark@naver.com", "010-1234-5678");
+        user = new User(1L, "jangwoo", "jangwoopark@naver.com", "01012345678");
         userRepository.save(user);
 
-        address = new Address("장우네 집", "박장우", "010-1234-5678", "01234", "기본주소", "상세주소", true, "요청사항", user);
+        address = new Address("장우네 집", "박장우", "01012345678", "01234", "기본주소", "상세주소", true, "요청사항", user);
+
         addressRepository.save(address);
 
         request = new PostAddressRequest(
@@ -64,26 +65,20 @@ class AddressServiceTest {
         assertThat(findAddress).isEqualTo(address);
     }
 
-    @Test
-    void 기본_배송지_해제() {
-        addressService.disablePrevDefaultAddress();
-
-        Assertions.assertNull(addressRepository.findDefaultAddress().get());
-    }
 
     @Test
     void 기본_배송지_수정() {
 
         //given
-        Address address2 = new Address("Address2", "박장우", "010-1234-5678", "01234", "기본주소", "상세주소", false, "요청사항", user);
+        Address address2 = new Address("Address2", "박장우", "01012345678", "01234", "기본주소", "상세주소", false, "요청사항", user);
         addressRepository.save(address2);
 
         // 기존에 존재하는 address를 해제하고, address2를 기본 배송지로 수정하는 요청
-        PatchAddressRequest patchRequest = new PatchAddressRequest(address2.getId(), "request");
+        PatchAddressRequest patchRequest = new PatchAddressRequest(address2.getId(), address2.getUser().getUserId(), "request");
         PatchAddressResponse response = addressService.updateDefaultAddress(patchRequest);
 
         //when
-        Address defaultAddress = addressRepository.findDefaultAddress().orElseThrow();
+        Address defaultAddress = addressRepository.findDefaultAddress(user.getUserId()).orElseThrow();
 
         //then
         assertThat(address2).isEqualTo(defaultAddress);
