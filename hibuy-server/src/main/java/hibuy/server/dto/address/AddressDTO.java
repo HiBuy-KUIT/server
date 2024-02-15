@@ -11,7 +11,8 @@ public class AddressDTO {
     private String phoneNumber;
     private String basicAddress;
     private String detailAddress;
-    private Boolean isDefaultAddress;
+    private String request;
+    private Boolean defaultAddress;
 
     public AddressDTO(Address address) {
         this.addressId = address.getId();
@@ -20,6 +21,7 @@ public class AddressDTO {
         this.phoneNumber = address.getPhoneNumber();
         this.basicAddress = address.getBasicAddress();
         this.detailAddress = address.getDetailAddress();
-        this.isDefaultAddress = address.isDefaultAddress();
+        this.request = address.getRequest();
+        this.defaultAddress = address.isDefaultAddress();
     }
 }
