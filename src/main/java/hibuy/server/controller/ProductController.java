@@ -2,6 +2,7 @@ package hibuy.server.controller;
 
 import hibuy.server.common.response.BaseResponse;
 
+
 import hibuy.server.dto.product.*;
 import hibuy.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,11 @@ public class ProductController {
         return new BaseResponse<>(productService.getProductListByName(name));
     }
 
+
     @GetMapping("/{productId}")
     public BaseResponse<GetProductInfoResponse> getProductInfo(@PathVariable Long productId){
         log.debug("[ProductController.getProductInfo]");
         return new BaseResponse<>(productService.getProductInfo(productId));
     }
+
 }

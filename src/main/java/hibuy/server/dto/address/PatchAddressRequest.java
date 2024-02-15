@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PatchAddressRequest {
+
     @NotNull
     private Long addressId;
 

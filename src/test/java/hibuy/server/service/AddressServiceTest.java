@@ -38,6 +38,7 @@ class AddressServiceTest {
         userRepository.save(user);
 
         address = new Address("장우네 집", "박장우", "01012345678", "01234", "기본주소", "상세주소", true, "요청사항", user);
+
         addressRepository.save(address);
 
         request = new PostAddressRequest(

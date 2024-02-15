@@ -9,6 +9,7 @@ spring:
         open-in-view: true
         properties:
             hibernate:
+
 #                show_sql: true
 #                format_sql: true
                 default_batch_fetch_size: 100
@@ -21,6 +22,7 @@ logging:
 server:
     error:
         include-stacktrace: never
+
 #        include-message: never
 #        include-binding-errors: never
 

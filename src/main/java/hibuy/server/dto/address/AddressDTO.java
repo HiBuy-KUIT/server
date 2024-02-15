@@ -13,7 +13,7 @@ public class AddressDTO {
     private String detailAddress;
     private String request;
     private Boolean defaultAddress;
-
+  
     public AddressDTO(Address address) {
         this.addressId = address.getId();
         this.addressName = address.getAddressName();
