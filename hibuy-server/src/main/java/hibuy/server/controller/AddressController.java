@@ -29,7 +29,7 @@ public class AddressController {
     }
 
     @PatchMapping
-    public BaseResponse<PatchAddressResponse> updateDefaultAddress(@RequestBody PatchAddressRequest request){
+    public BaseResponse<PatchAddressResponse> updateDefaultAddress(@Validated @RequestBody PatchAddressRequest request){
         log.debug("[AddressController.updateAddress]");
         return new BaseResponse<>(addressService.updateDefaultAddress(request));
 

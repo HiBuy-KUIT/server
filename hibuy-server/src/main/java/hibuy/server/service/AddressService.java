@@ -30,7 +30,7 @@ public class AddressService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
 
         if (request.getDefaultAddress()) {
-            disablePrevDefaultAddress();
+            disablePrevDefaultAddress(request.getUserId());
         }
 
         Address address = addressRepository.save(new Address(
@@ -59,7 +59,7 @@ public class AddressService {
 
     public PatchAddressResponse updateDefaultAddress(PatchAddressRequest request) {
 
-        disablePrevDefaultAddress();
+        disablePrevDefaultAddress(request.getUserId());
 
         Address newAddress = addressRepository.findById(request.getAddressId())
                 .orElseThrow(() -> new RuntimeException("Address not found with id " + request.getAddressId()));
@@ -70,8 +70,8 @@ public class AddressService {
 
     }
 
-    protected void disablePrevDefaultAddress() {
-        Optional<Address> addressOptional = addressRepository.findDefaultAddress();
+    protected void disablePrevDefaultAddress(Long userId) {
+        Optional<Address> addressOptional = addressRepository.findDefaultAddress(userId);
         if (addressOptional.isPresent()) {
             Address currentDefaultAddress = addressOptional.get();
             currentDefaultAddress.updateAddress(false, currentDefaultAddress.getRequest());
