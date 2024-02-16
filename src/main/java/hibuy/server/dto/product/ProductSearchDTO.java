@@ -10,4 +10,7 @@ public class ProductSearchDTO {
     private int oneTakeAmount;
     private int totalAmount;
     private int takeCount;
+
+    private String companyName;
+    private String imageUrl;
 }
