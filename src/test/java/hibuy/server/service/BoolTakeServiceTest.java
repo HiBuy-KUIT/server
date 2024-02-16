@@ -68,8 +68,7 @@ class BoolTakeServiceTest {
         dayList.add(4);
 
         request = new PostUserProductRequest("product", 2, 100, timeList, dayList, 1,
-                user.getUserId());
-
+                user.getUserId(), "종근당", "imageUrl");
 
     }
     @Test

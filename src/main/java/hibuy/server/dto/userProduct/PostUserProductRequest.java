@@ -40,5 +40,6 @@ public class PostUserProductRequest {
     private Long userId;
 
     private String companyName;
+
     private String imageUrl;
 }
