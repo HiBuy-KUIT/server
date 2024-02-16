@@ -30,6 +30,9 @@ public class UserProduct extends BaseEntity{
 
     private String productName;
 
+    private String companyName;
+    private String imageUrl;
+
     @NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -37,7 +40,7 @@ public class UserProduct extends BaseEntity{
 
 
     public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
-            User user) {
+            User user, String companyName, String imageUrl) {
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.notification = notification;
@@ -45,6 +48,8 @@ public class UserProduct extends BaseEntity{
         this.productName = productName;
         this.user = user;
         this.status = Status.ACTIVE;
+        this.companyName = companyName;
+        this.imageUrl = imageUrl;
     }
 
     public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {
