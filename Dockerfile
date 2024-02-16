@@ -2,14 +2,14 @@
 FROM openjdk:17-jdk AS build
 RUN microdnf install findutils
 #gradle 복사
-COPY hibuy-server/gradlew .
-COPY hibuy-server/gradle gradle
+COPY ./gradlew .
+COPY ./gradle gradle
 #build.gradle 복사
-COPY hibuy-server/build.gradle .
+COPY ./build.gradle .
 #settings.gradle 복사
-COPY hibuy-server/settings.gradle .
+COPY ./settings.gradle .
 #웹어플리케이션 소스 복사
-COPY hibuy-server/src src
+COPY ./src src
 #gradlew 실행 권한 부여
 RUN chmod +x gradlew
 #gradlew를 통해 실행 가능한 jar파일 생성
