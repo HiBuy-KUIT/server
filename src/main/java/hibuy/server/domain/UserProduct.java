@@ -36,6 +36,7 @@ public class UserProduct extends BaseEntity{
     private User user;
 
 
+
     public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
             User user) {
         this.oneTakeAmount = oneTakeAmount;
