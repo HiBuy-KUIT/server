@@ -35,6 +35,7 @@ public class UserProduct extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
+
     public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
             User user) {
         this.oneTakeAmount = oneTakeAmount;
