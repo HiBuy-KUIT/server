@@ -3,6 +3,7 @@ package hibuy.server.controller;
 import hibuy.server.common.response.BaseResponse;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
 import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
+import hibuy.server.dto.userProduct.GetUserProductResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
@@ -10,6 +11,7 @@ import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.service.UserProductService;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +40,15 @@ public class UserProductController {
         return new BaseResponse<>(userProductService.getHomeUserProducts(date, userId));
 
     }
+
+    @GetMapping("/edit/{userId}")
+    public BaseResponse<List<GetUserProductResponse>> getUserProducts(@PathVariable Long userId) {
+        log.debug("[UserProductController.getUserProducts]");
+
+        return new BaseResponse<>(userProductService.getUserProducts(userId));
+    }
+
+
 
     @GetMapping("/edit/{userProductId}")
     public BaseResponse<PutUserProductRequest> getUserProduct(@PathVariable Long userProductId) {
