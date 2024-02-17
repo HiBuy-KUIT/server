@@ -8,7 +8,6 @@ import hibuy.server.dto.address.PostAddressRequest;
 import hibuy.server.dto.address.PostAddressResponse;
 import hibuy.server.repository.AddressRepository;
 import hibuy.server.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
