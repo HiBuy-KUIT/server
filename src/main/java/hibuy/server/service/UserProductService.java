@@ -14,7 +14,6 @@ import hibuy.server.dto.userProduct.PutUserProductResponse;
 import hibuy.server.dto.userProduct.UserProductDto;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.UserProductDayRepository;
-import hibuy.server.repository.UserProductJpaRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserProductTimeRepository;
 import hibuy.server.repository.UserRepository;
@@ -42,7 +41,6 @@ public class UserProductService {
     private final UserProductRepository userProductRepository;
     private final UserProductTimeRepository userProductTimeRepository;
     private final UserProductDayRepository userProductDayRepository;
-    private final UserProductJpaRepository userProductJpaRepository;
     private final BoolTakeRepository boolTakeRepository;
 
     public GetHomeUserProductsResponse getHomeUserProducts(LocalDate localDate, Long userId) {
@@ -52,7 +50,7 @@ public class UserProductService {
         int day = localDate.getDayOfWeek().getValue();
 
         //오늘 먹을 영양제
-        List<UserProductDto> userProductDtos = userProductJpaRepository.findByUserAndDate(userId, day);
+        List<UserProductDto> userProductDtos = userProductRepository.findByUserAndDate(userId, day);
 
         //리텁배열
         List<DailyUserProductDto> dailyUserProductDtos = new ArrayList<>();
@@ -106,7 +104,6 @@ public class UserProductService {
                 } else {
                     status = isTake.getStatus();
                 }
-//                dailyUserProductDto.getTakeStatusDtoList().add(new UserProductDto(userProductTime.getTakeTime(), status));
                 dailyUserProductDtos.add(
                         new DailyUserProductDto(userProductId, userProductDto.getProductName(),
                                 userProductDto.getOneTakeAmount(),
