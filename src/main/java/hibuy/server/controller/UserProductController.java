@@ -50,7 +50,7 @@ public class UserProductController {
 
 
 
-    @GetMapping("/edit/{userProductId}")
+    @GetMapping("/{userProductId}")
     public BaseResponse<PutUserProductRequest> getUserProduct(@PathVariable Long userProductId) {
         log.debug("[UserProductController.getUserProduct]");
 
