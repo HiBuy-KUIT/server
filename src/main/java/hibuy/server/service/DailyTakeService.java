@@ -8,6 +8,7 @@ import hibuy.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public class DailyTakeService {
 
     }
 
+    @Transactional
     public void addDailyTake(Long userId, Date date) {
 
         log.debug("[DailyTakeService.addDailyTake]");
@@ -40,7 +42,18 @@ public class DailyTakeService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        dailyTakeRepository.save(new DailyTake(date, user));
+        Optional<DailyTake> dailyTakeOptional = dailyTakeRepository.findTakeDatesByUserIdAAndTakeDate(userId, date);
+
+        if(dailyTakeOptional.isEmpty()) {
+            dailyTakeRepository.save(new DailyTake(date, user));
+            return;
+        }
+
+        DailyTake dailyTake = dailyTakeOptional.get();
+
+        if(dailyTake.isStatusInactive()) {
+            dailyTake.changeStatusToActive();
+        }
 
     }
 }
