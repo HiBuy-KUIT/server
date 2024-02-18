@@ -151,6 +151,7 @@ public class UserProductService {
         return new PutUserProductResponse(userProduct.getId());
     }
 
+    @Transactional
     public PostUserProductResponse createUserProduct(PostUserProductRequest request) {
         log.debug("[UserProductService.createUserProduct]");
 
