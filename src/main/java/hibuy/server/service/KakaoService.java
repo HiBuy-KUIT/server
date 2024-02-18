@@ -1,9 +1,11 @@
 package hibuy.server.service;
 
+import hibuy.server.domain.DateCount;
 import hibuy.server.domain.User;
 import hibuy.server.dto.oauth2.KakaoTokenResponse;
 import hibuy.server.dto.oauth2.KakaoUserInfoResponse;
 import hibuy.server.dto.oauth2.LoginResponse;
+import hibuy.server.repository.DateCountRepository;
 import hibuy.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class KakaoService {
 
     private final UserRepository userRepository;
+    private final DateCountRepository dateCountRepository;
 
     @Value("${kakao.oauth2.client_id}") private String clientId;
     @Value("${kakao.oauth2.redirect_uri}") private String redirectUri;
@@ -70,11 +73,13 @@ public class KakaoService {
         Optional<User> user = userRepository.findByKakaoUserId(kakaoUserInfoResponse.getId());
 
         if(user.isEmpty()) {
-            userRepository.save(new User(
+            User savedUser = userRepository.save(new User(
                     kakaoUserInfoResponse.getId(),
                     kakaoUserInfoResponse.getKakao_account().getName(),
                     kakaoUserInfoResponse.getKakao_account().getEmail(),
                     kakaoUserInfoResponse.getKakao_account().getPhone_number()));
+
+            dateCountRepository.save(new DateCount(savedUser));
         }
 
         return new LoginResponse(
