@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserProductRepository extends JpaRepository<UserProduct, Long> {
 
-    @Query("select new hibuy.server.dto.userProduct.GetUserProductResponse(up.id, up.productName, up.imageUrl, up.oneTakeAmount)"
+    @Query("select new hibuy.server.dto.userProduct.GetUserProductResponse(up.id, up.companyName, up.productName, up.imageUrl, up.oneTakeAmount)"
             + " from UserProduct up"
             + " where up.user.userId=:userId")
     List<GetUserProductResponse> findUserProductByUserId(@Param("userId") Long userId);
