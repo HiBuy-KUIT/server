@@ -51,9 +51,12 @@ public class ProductService {
 
         return new GetProductInfoResponse(
                 product.getProductName(),
+                product.getCompanyName(),
+                product.getPrice(),
                 product.getOneTakeAmount(),
                 product.getTotalAmount(),
-                product.getTakeCount()
+                product.getTakeCount(),
+                product.getImageUrl()
         );
     }
 }
