@@ -21,7 +21,6 @@ public class UserProduct extends BaseEntity{
     private Long id;
 
     private int oneTakeAmount;
-
     private int totalAmount;
 
     private int notification;
@@ -32,6 +31,7 @@ public class UserProduct extends BaseEntity{
 
     private String companyName;
     private String imageUrl;
+
 
     @NotNull
     @ManyToOne(fetch = LAZY)
