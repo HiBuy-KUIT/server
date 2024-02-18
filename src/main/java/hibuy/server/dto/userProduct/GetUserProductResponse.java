@@ -10,19 +10,18 @@ import lombok.Getter;
 @AllArgsConstructor
 public class GetUserProductResponse {
 
-    /**
-     * CompanyName ProductName ImageUrl TImeList DayList OneTakeAmount
-     */
     private Long userProductId;
+    private String companyName;
     private String productName;
     private String imageUrl;
     private List<Time> timeList;
     private List<String> dayList;
     private int oneTakeAmount;
 
-    public GetUserProductResponse(Long userProductId, String productName, String imageUrl,
+    public GetUserProductResponse(Long userProductId, String companyName, String productName, String imageUrl,
             int oneTakeAmount) {
         this.userProductId = userProductId;
+        this.companyName = companyName;
         this.productName = productName;
         this.imageUrl = imageUrl;
         this.oneTakeAmount = oneTakeAmount;
