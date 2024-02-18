@@ -30,4 +30,12 @@ public class DailyTake extends BaseEntity{
         this.user = user;
         this.status = Status.ACTIVE;
     }
+
+    public boolean isStatusInactive() {
+        return this.status.equals(Status.INACTIVE);
+    }
+
+    public void changeStatusToActive() {
+        this.status = Status.ACTIVE;
+    }
 }
