@@ -6,6 +6,7 @@ import hibuy.server.domain.*;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
 import hibuy.server.dto.userProduct.GetHomeUserProductsResponse;
+import hibuy.server.dto.userProduct.GetUserProductResponse;
 import hibuy.server.dto.userProduct.PostUserProductRequest;
 import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
@@ -103,7 +104,6 @@ public class UserProductService {
                 } else {
                     status = isTake.getStatus();
                 }
-//                dailyUserProductDto.getTakeStatusDtoList().add(new UserProductDto(userProductTime.getTakeTime(), status));
                 dailyUserProductDtos.add(
                         new DailyUserProductDto(userProductId, userProductDto.getProductName(),
                                 userProductDto.getOneTakeAmount(),
@@ -162,7 +162,9 @@ public class UserProductService {
                 request.getTotalAmount(),
                 request.getNotification(),
                 request.getProductName(),
-                user
+                user,
+                request.getCompanyName(),
+                request.getImageUrl()
         );
 
         userProductRepository.save(userProduct);
@@ -187,5 +189,41 @@ public class UserProductService {
         userProductRepository.deleteById(userProductId);
 
         return new DeleteUserProductResponse(userProductId);
+    }
+
+    public List<GetUserProductResponse> getUserProducts(Long userId) {
+        log.debug("[UserProductService.getUserProducts]");
+
+        List<GetUserProductResponse> userProducts = userProductRepository.findUserProductByUserId(userId);
+
+        //의 UserProduct id List
+        List<Long> userProductIds = userProducts.stream()
+                .map(GetUserProductResponse::getUserProductId)
+                .toList();
+
+        //들의 섭취 시간 List, Map
+        List<UserProductTime> userProductTimeList = userProductTimeRepository.findByUserProductIds(userProductIds);
+        Map<Long, List<Time>> userProductTimeMap = userProductTimeList.stream()
+                .collect(Collectors.groupingBy(
+                        userProductTime -> userProductTime.getUserProduct().getId(),
+                        Collectors.mapping(UserProductTime::getTakeTime, Collectors.toList())
+                ));
+
+        //들의 섭취 요일 List, Map
+        List<UserProductDay> userProductDayList = userProductDayRepository.findByUserProductIds(userProductIds);
+        Map<Long, List<Integer>> userProductDayMap = userProductDayList.stream()
+                .collect(Collectors.groupingBy(
+                        userProductDay -> userProductDay.getUserProduct().getId(),
+                        Collectors.mapping(UserProductDay::getTakeDay, Collectors.toList())
+                ));
+
+        for (GetUserProductResponse getUserProductResponse : userProducts) {
+            Long userProductId = getUserProductResponse.getUserProductId();
+
+            getUserProductResponse.setTimeList(userProductTimeMap.get(userProductId));
+            getUserProductResponse.setDayList(userProductDayMap.get(userProductId));
+        }
+
+        return userProducts;
     }
 }

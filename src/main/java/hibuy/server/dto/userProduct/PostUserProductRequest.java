@@ -38,4 +38,8 @@ public class PostUserProductRequest {
     private int notification;
 
     private Long userId;
+
+    private String companyName;
+
+    private String imageUrl;
 }

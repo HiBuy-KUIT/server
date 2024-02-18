@@ -11,7 +11,6 @@ import hibuy.server.dto.userProduct.PostUserProductResponse;
 import hibuy.server.dto.userProduct.PutUserProductRequest;
 import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
-import hibuy.server.repository.UserProductJpaRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserRepository;
 import java.sql.Time;
@@ -32,7 +31,6 @@ class UserProductServiceTest {
     @Autowired ProductRepository productRepository;
     @Autowired UserProductService userProductService;
     @Autowired UserProductRepository userProductRepository;
-    @Autowired UserProductJpaRepository userProductJpaRepository;
     @Autowired BoolTakeRepository boolTakeRepository;
 
     private User user;
@@ -58,7 +56,7 @@ class UserProductServiceTest {
         dayList.add(4);
 
         request = new PostUserProductRequest("product", 2, 100, timeList, dayList, 1,
-                user.getUserId());
+                user.getUserId(), "종근당", "imageUrl");
     }
     @Test
     public void createUserProduct() {
