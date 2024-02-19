@@ -1,11 +1,14 @@
 package hibuy.server.common.exception.notfound;
 
+import hibuy.server.common.exception.DatabaseException;
 import lombok.Getter;
 
+import static hibuy.server.common.response.status.BaseExceptionResponseStatus.*;
+
 @Getter
-public class NotFoundProductException extends NotFoundException{
+public class NotFoundProductException extends DatabaseException {
 
     public NotFoundProductException() {
-        super("존재하지 않는 제품입니다.", 1006);
+        super(PRODUCT_NOT_FOUND);
     }
 }
