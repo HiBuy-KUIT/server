@@ -1,7 +1,6 @@
 package hibuy.server.service;
 
-import hibuy.server.common.http.HttpHeader;
-import hibuy.server.common.http.URL;
+import hibuy.server.common.http.RequestBody;
 import hibuy.server.domain.DateCount;
 import hibuy.server.domain.User;
 import hibuy.server.dto.oauth2.KakaoTokenResponse;
@@ -19,7 +18,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-import static hibuy.server.common.http.HttpHeader.*;
+import static hibuy.server.common.http.RequestBody.*;
+import static hibuy.server.common.http.RequestHeader.*;
 import static hibuy.server.common.http.URL.*;
 
 @Slf4j
@@ -56,13 +56,7 @@ public class KakaoService {
         Optional<User> user = userRepository.findByKakaoUserId(kakaoUserInfoResponse.getId());
 
         if(user.isEmpty()) {
-            User savedUser = userRepository.save(new User(
-                    kakaoUserInfoResponse.getId(),
-                    kakaoUserInfoResponse.getUsername(),
-                    kakaoUserInfoResponse.getUserEmail(),
-                    kakaoUserInfoResponse.getUserPhoneNumber()));
-
-            dateCountRepository.save(new DateCount(savedUser));
+            saveUserAndDateCount(kakaoUserInfoResponse);
         }
 
         return new LoginResponse(
@@ -102,11 +96,21 @@ public class KakaoService {
 
     private MultiValueMap<String, String> buildAccessTokenRequestBody(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", clientId);
-        params.add("client_secret", clientSecret);
-        params.add("redirect_uri", redirectUri);
-        params.add("code", code);
+        params.add(GRANT_TYPE.getName(), AUTHORIZATION_CODE.getName());
+        params.add(CLIENT_ID.getName(), clientId);
+        params.add(CLIENT_SECRET.getName(), clientSecret);
+        params.add(REDIRECT_URI.getName(), redirectUri);
+        params.add(CODE.getName(), code);
         return params;
+    }
+
+    private void saveUserAndDateCount(KakaoUserInfoResponse kakaoUserInfoResponse) {
+        User savedUser = userRepository.save(new User(
+                kakaoUserInfoResponse.getId(),
+                kakaoUserInfoResponse.getUsername(),
+                kakaoUserInfoResponse.getUserEmail(),
+                kakaoUserInfoResponse.getUserPhoneNumber()));
+
+        dateCountRepository.save(new DateCount(savedUser));
     }
 }
