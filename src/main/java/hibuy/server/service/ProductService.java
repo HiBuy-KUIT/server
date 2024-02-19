@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import hibuy.server.common.exception.notfound.NotFoundProductException;
 import hibuy.server.domain.Product;
 import hibuy.server.dto.product.*;
 import hibuy.server.repository.ProductRepository;
@@ -47,7 +48,9 @@ public class ProductService {
 
     public GetProductInfoResponse getProductInfo(Long productId) {
         log.debug("[ProductService.getProductInfoResponse]");
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found with id " + productId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(NotFoundProductException::new);
 
         return new GetProductInfoResponse(
                 product.getProductName(),
