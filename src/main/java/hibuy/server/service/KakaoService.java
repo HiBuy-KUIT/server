@@ -1,6 +1,7 @@
 package hibuy.server.service;
 
-import hibuy.server.common.URL;
+import hibuy.server.common.http.HttpHeader;
+import hibuy.server.common.http.URL;
 import hibuy.server.domain.DateCount;
 import hibuy.server.domain.User;
 import hibuy.server.dto.oauth2.KakaoTokenResponse;
@@ -17,6 +18,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
+
+import static hibuy.server.common.http.HttpHeader.*;
+import static hibuy.server.common.http.URL.*;
 
 @Slf4j
 @Service
@@ -36,16 +40,7 @@ public class KakaoService {
 
         WebClient webClient = WebClient.builder().build();
 
-        KakaoTokenResponse responseBody = webClient.post()
-                .uri(URL.KAKAO_TOKEN_URL.getUrl())
-                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
-                .bodyValue(buildAccessTokenRequestBody(code))
-                .retrieve()
-                .bodyToMono(KakaoTokenResponse.class)
-                .doOnError(error -> {
-                    log.error("do on error: " + error);
-                })
-                .block();
+        KakaoTokenResponse responseBody = retrieveKakaoToken(code, webClient);
 
         return responseBody.getAccess_token();
     }
@@ -56,11 +51,46 @@ public class KakaoService {
 
         WebClient webClient = WebClient.builder().build();
 
-        KakaoUserInfoResponse kakaoUserInfoResponse = webClient.get()
-                .uri(URL.KAKAO_USER_INFO_URL.getUrl())
+        KakaoUserInfoResponse kakaoUserInfoResponse = retrieveKakaoUserInfo(accessToken, webClient);
+
+        Optional<User> user = userRepository.findByKakaoUserId(kakaoUserInfoResponse.getId());
+
+        if(user.isEmpty()) {
+            User savedUser = userRepository.save(new User(
+                    kakaoUserInfoResponse.getId(),
+                    kakaoUserInfoResponse.getUsername(),
+                    kakaoUserInfoResponse.getUserEmail(),
+                    kakaoUserInfoResponse.getUserPhoneNumber()));
+
+            dateCountRepository.save(new DateCount(savedUser));
+        }
+
+        return new LoginResponse(
+                kakaoUserInfoResponse.getUsername(),
+                kakaoUserInfoResponse.getUserEmail(),
+                kakaoUserInfoResponse.getUserPhoneNumber());
+
+    }
+
+    private KakaoTokenResponse retrieveKakaoToken(String code, WebClient webClient) {
+        return webClient.post()
+                .uri(KAKAO_TOKEN_URL.getUrl())
+                .header(CONTENT_TYPE_URL_ENCODED.getHeaderName(), CONTENT_TYPE_URL_ENCODED.getHeaderValue())
+                .bodyValue(buildAccessTokenRequestBody(code))
+                .retrieve()
+                .bodyToMono(KakaoTokenResponse.class)
+                .doOnError(error -> {
+                    log.error("do on error: " + error);
+                })
+                .block();
+    }
+
+    private KakaoUserInfoResponse retrieveKakaoUserInfo(String accessToken, WebClient webClient) {
+        return webClient.get()
+                .uri(KAKAO_USER_INFO_URL.getUrl())
                 .headers(httpHeaders -> {
-                    httpHeaders.set("Authorization", "Bearer " + accessToken);
-                    httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+                    httpHeaders.set(AUTHORIZATION.getHeaderName(), AUTHORIZATION.getHeaderValue() + accessToken);
+                    httpHeaders.set(CONTENT_TYPE_URL_ENCODED.getHeaderName(), CONTENT_TYPE_URL_ENCODED.getHeaderValue());
                 })
                 .retrieve()
                 .bodyToMono(KakaoUserInfoResponse.class)
@@ -68,26 +98,7 @@ public class KakaoService {
                     log.error("do on error: " + error);
                 })
                 .block();
-
-        Optional<User> user = userRepository.findByKakaoUserId(kakaoUserInfoResponse.getId());
-
-        if(user.isEmpty()) {
-            User savedUser = userRepository.save(new User(
-                    kakaoUserInfoResponse.getId(),
-                    kakaoUserInfoResponse.getKakao_account().getName(),
-                    kakaoUserInfoResponse.getKakao_account().getEmail(),
-                    kakaoUserInfoResponse.getKakao_account().getPhone_number()));
-
-            dateCountRepository.save(new DateCount(savedUser));
-        }
-
-        return new LoginResponse(
-                kakaoUserInfoResponse.getKakao_account().getName(),
-                kakaoUserInfoResponse.getKakao_account().getEmail(),
-                kakaoUserInfoResponse.getKakao_account().getPhone_number());
-
     }
-
 
     private MultiValueMap<String, String> buildAccessTokenRequestBody(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
