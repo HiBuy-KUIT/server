@@ -33,9 +33,10 @@ public class DateCountService {
 
         log.debug("[PatchDateCountResponse.updateUserDateCount]");
 
-        int affectedRows = dateCountRepository.updateDateCountByUserId(userId);
-        if (affectedRows != 1) {
-            throw new DatabaseException(DATABASE_ERROR);
-        }
+        DateCount dateCount = dateCountRepository.findDateCountByUserId(userId)
+                .orElseThrow(() -> new DatabaseException(DATABASE_ERROR));
+
+        dateCount.increaseDateCount();
+
     }
 }
