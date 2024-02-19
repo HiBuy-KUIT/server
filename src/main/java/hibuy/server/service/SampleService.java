@@ -35,12 +35,7 @@ public class SampleService {
         log.debug("[SampleService.getSamples]");
 
         return sampleRepository.findAll().stream()
-                .map(sample -> new GetSampleResponse(
-                        sample.getProductName(),
-                        sample.getCompanyName(),
-                        sample.getImageUrl(),
-                        sample.getProductUrl()
-                )).toList();
+                .map(GetSampleResponse::new).toList();
 
     }
 }

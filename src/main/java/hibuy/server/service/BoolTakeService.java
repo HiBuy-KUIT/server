@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import hibuy.server.common.exception.notfound.NotFoundBoolTakeException;
 import hibuy.server.domain.BoolTake;
 import hibuy.server.dto.booltake.PatchBoolTakeRequest;
 import hibuy.server.dto.booltake.PatchBoolTakeResponse;
@@ -22,15 +23,24 @@ public class BoolTakeService {
     public PatchBoolTakeResponse updateBoolTake(PatchBoolTakeRequest request) {
         log.debug("[BoolTakeService.updateBoolTake]");
 
-        LocalDateTime localDateTime = LocalDateTime.of(request.getTakeDate().toLocalDate(),
-                request.getTakeTime().toLocalTime());
-        Timestamp takeDateTime = Timestamp.valueOf(localDateTime);
+        LocalDateTime localDateTime = getLocalDateTimeFromRequest(request);
 
         BoolTake boolTake = boolTakeRepository.findByUserProductAndTakeDateTime(
-                request.getUserProductId(), takeDateTime);
+                request.getUserProductId(), getTimestampFromLocalDateTime(localDateTime))
+                .orElseThrow(NotFoundBoolTakeException::new);
 
         boolTake.updateBoolTake(request.getStatus());
 
         return new PatchBoolTakeResponse(boolTake.getUserProduct().getId(), localDateTime);
     }
+
+    private Timestamp getTimestampFromLocalDateTime(LocalDateTime localDateTime) {
+        return Timestamp.valueOf(localDateTime);
+    }
+
+    private LocalDateTime getLocalDateTimeFromRequest(PatchBoolTakeRequest request) {
+        return LocalDateTime.of(request.getTakeDate().toLocalDate(),
+                request.getTakeTime().toLocalTime());
+    }
+
 }

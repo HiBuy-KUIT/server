@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import hibuy.server.common.exception.notfound.NotFoundUserException;
 import hibuy.server.domain.DailyTake;
 import hibuy.server.domain.User;
 import hibuy.server.dto.dailyTake.GetMonthlyTakeResponse;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -26,11 +28,9 @@ public class DailyTakeService {
 
         log.debug("[DailyTakeService.getMonthlyTake]");
 
-        return new GetMonthlyTakeResponse(dailyTakeRepository.findTakeDatesByUserId(userId).stream()
-                .filter(takeDate -> takeDate.toString().split(DATE_DELIMITER)[0].equals(year))
-                .filter(takeDate -> takeDate.toString().split(DATE_DELIMITER)[1].equals(month))
-                .sorted()
-                .toList());
+        List<Date> takeDates = dailyTakeRepository.findTakeDatesByUserId(userId);
+        
+        return new GetMonthlyTakeResponse(filterAndSortByYearAndMonth(year, month, takeDates));
 
     }
 
@@ -40,7 +40,7 @@ public class DailyTakeService {
         log.debug("[DailyTakeService.addDailyTake]");
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(NotFoundUserException::new);
 
         Optional<DailyTake> dailyTakeOptional = dailyTakeRepository.findTakeDatesByUserIdAAndTakeDate(userId, date);
 
@@ -55,5 +55,13 @@ public class DailyTakeService {
             dailyTake.changeStatusToActive();
         }
 
+    }
+
+    private List<Date> filterAndSortByYearAndMonth(String year, String month, List<Date> takeDates) {
+        return takeDates.stream()
+                .filter(takeDate -> takeDate.toString().split(DATE_DELIMITER)[0].equals(year))
+                .filter(takeDate -> takeDate.toString().split(DATE_DELIMITER)[1].equals(month))
+                .sorted()
+                .toList();
     }
 }

@@ -3,11 +3,7 @@ package hibuy.server.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -31,5 +27,9 @@ public class DateCount extends BaseEntity {
         this.dateCount = 0;
         this.user = user;
         this.status = Status.ACTIVE;
+    }
+
+    public void increaseDateCount() {
+        this.dateCount += 1;
     }
 }

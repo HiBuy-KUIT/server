@@ -1,5 +1,7 @@
 package hibuy.server.service;
 
+import hibuy.server.common.exception.notfound.NotFoundAddressException;
+import hibuy.server.common.exception.notfound.NotFoundUserException;
 import hibuy.server.domain.Address;
 import hibuy.server.domain.User;
 import hibuy.server.dto.address.*;
@@ -27,7 +29,7 @@ public class AddressService {
         log.debug("[AddressService.addAddress]");
 
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+                .orElseThrow(NotFoundUserException::new);
 
         if (request.getDefaultAddress()) {
             disablePrevDefaultAddress(request.getUserId());
@@ -62,7 +64,7 @@ public class AddressService {
         disablePrevDefaultAddress(request.getUserId());
 
         Address newAddress = addressRepository.findById(request.getAddressId())
-                .orElseThrow(() -> new RuntimeException("Address not found with id " + request.getAddressId()));
+                .orElseThrow(NotFoundAddressException::new);
 
         newAddress.updateAddress(true, request.getRequest());
         addressRepository.save(newAddress);

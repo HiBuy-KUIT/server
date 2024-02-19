@@ -17,4 +17,16 @@ public class KakaoUserInfoResponse {
         private String phone_number;
     }
 
+    public String getUsername() {
+        return this.getKakao_account().getName();
+    }
+
+    public String getUserEmail() {
+        return this.getKakao_account().getEmail();
+    }
+
+    public String getUserPhoneNumber() {
+        return this.getKakao_account().getPhone_number();
+    }
+
 }
