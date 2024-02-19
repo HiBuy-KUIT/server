@@ -28,9 +28,8 @@ public class LoginController {
         log.debug("[LoginController.requestLogin]");
 
         String accessToken = kakaoService.getAccessToken(code);
-        LoginResponse userInfo = kakaoService.getUserInfo(accessToken);
 
-        return new BaseResponse<>(userInfo);
+        return new BaseResponse<>(kakaoService.getUserInfo(accessToken));
 
     }
 

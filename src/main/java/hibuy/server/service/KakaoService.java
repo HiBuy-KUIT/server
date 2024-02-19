@@ -30,9 +30,12 @@ public class KakaoService {
     private final UserRepository userRepository;
     private final DateCountRepository dateCountRepository;
 
-    @Value("${kakao.oauth2.client_id}") private String clientId;
-    @Value("${kakao.oauth2.redirect_uri}") private String redirectUri;
-    @Value("${kakao.oauth2.client_secret}") private String clientSecret;
+    @Value("${kakao.oauth2.client_id}")
+    private String clientId;
+    @Value("${kakao.oauth2.redirect_uri}")
+    private String redirectUri;
+    @Value("${kakao.oauth2.client_secret}")
+    private String clientSecret;
 
     public String getAccessToken(String code) {
 
@@ -55,14 +58,9 @@ public class KakaoService {
 
         Optional<User> user = userRepository.findByKakaoUserId(kakaoUserInfoResponse.getId());
 
-        if(user.isEmpty()) {
-            saveUserAndDateCount(kakaoUserInfoResponse);
-        }
-
-        return new LoginResponse(
-                kakaoUserInfoResponse.getUsername(),
-                kakaoUserInfoResponse.getUserEmail(),
-                kakaoUserInfoResponse.getUserPhoneNumber());
+        return user.map(
+                value -> new LoginResponse(value.getUserId()))
+                .orElseGet(() -> new LoginResponse(saveUserAndDateCount(kakaoUserInfoResponse)));
 
     }
 
@@ -104,7 +102,7 @@ public class KakaoService {
         return params;
     }
 
-    private void saveUserAndDateCount(KakaoUserInfoResponse kakaoUserInfoResponse) {
+    private Long saveUserAndDateCount(KakaoUserInfoResponse kakaoUserInfoResponse) {
         User savedUser = userRepository.save(new User(
                 kakaoUserInfoResponse.getId(),
                 kakaoUserInfoResponse.getUsername(),
@@ -112,5 +110,6 @@ public class KakaoService {
                 kakaoUserInfoResponse.getUserPhoneNumber()));
 
         dateCountRepository.save(new DateCount(savedUser));
+        return savedUser.getUserId();
     }
 }
