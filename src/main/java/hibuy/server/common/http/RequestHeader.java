@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum HttpHeader {
+public enum RequestHeader {
 
     CONTENT_TYPE_URL_ENCODED("Content-type", "application/x-www-form-urlencoded;charset=utf-8"),
     AUTHORIZATION("Authorization", "Bearer ");
