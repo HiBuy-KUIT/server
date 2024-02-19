@@ -30,9 +30,6 @@ public class LoginController {
         String accessToken = kakaoService.getAccessToken(code);
         LoginResponse userInfo = kakaoService.getUserInfo(accessToken);
 
-        System.out.println("userInfo.getName() = " + userInfo.getName());
-        System.out.println("userInfo.getEmail() = " + userInfo.getEmail());
-
         return new BaseResponse<>(userInfo);
 
     }
