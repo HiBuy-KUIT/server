@@ -1,4 +1,4 @@
-package hibuy.server.common;
+package hibuy.server.common.http;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
