@@ -10,6 +10,7 @@ import hibuy.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class AddressService {
         return new GetAddressListResponse(addressDTOs);
     }
 
-
+    @Transactional
     public PatchAddressResponse updateDefaultAddress(PatchAddressRequest request) {
 
         disablePrevDefaultAddress(request.getUserId());
@@ -67,7 +68,7 @@ public class AddressService {
                 .orElseThrow(NotFoundAddressException::new);
 
         newAddress.updateAddress(true, request.getRequest());
-        addressRepository.save(newAddress);
+
         return new PatchAddressResponse(newAddress.getId());
 
     }
