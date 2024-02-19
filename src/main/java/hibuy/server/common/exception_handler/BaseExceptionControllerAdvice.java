@@ -48,7 +48,7 @@ public class BaseExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
-    public BaseErrorResponse handleNotFoundAddressException(NotFoundBoolTakeException e) {
+    public BaseErrorResponse handleNotFoundBoolTakeException(NotFoundBoolTakeException e) {
         log.error("[handle_NotFoundBoolTakeException]", e);
         return new BaseErrorResponse(BOOL_TAKE_NOT_FOUND);
     }
