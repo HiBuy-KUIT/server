@@ -31,5 +31,8 @@ public class DateCount extends BaseEntity {
 
     public void increaseDateCount() {
         this.dateCount += 1;
+        if(this.dateCount == 151) {
+            this.dateCount = 1;
+        }
     }
 }
