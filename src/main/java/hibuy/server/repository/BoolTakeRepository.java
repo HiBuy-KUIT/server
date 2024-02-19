@@ -3,6 +3,8 @@ package hibuy.server.repository;
 import hibuy.server.domain.BoolTake;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +20,6 @@ public interface BoolTakeRepository extends JpaRepository<BoolTake, Long> {
     void deleteByUserProductId(@Param("userProductId") Long userProductId);
 
     @Query("select bt from BoolTake bt where bt.userProduct.id=:userProductId and bt.takeDateTime=:takeDateTime")
-    BoolTake findByUserProductAndTakeDateTime(@Param("userProductId") Long userProductId,
-            @Param("takeDateTime") Timestamp takeDateTime);
+    Optional<BoolTake> findByUserProductAndTakeDateTime(@Param("userProductId") Long userProductId,
+                                                        @Param("takeDateTime") Timestamp takeDateTime);
 }
