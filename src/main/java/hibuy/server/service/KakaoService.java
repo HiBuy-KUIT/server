@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import hibuy.server.common.URL;
 import hibuy.server.domain.DateCount;
 import hibuy.server.domain.User;
 import hibuy.server.dto.oauth2.KakaoTokenResponse;
@@ -34,10 +35,9 @@ public class KakaoService {
         log.debug("[KakaoService.getAccessToken]");
 
         WebClient webClient = WebClient.builder().build();
-        String requestUrl = "https://kauth.kakao.com/oauth/token";
 
         KakaoTokenResponse responseBody = webClient.post()
-                .uri(requestUrl)
+                .uri(URL.KAKAO_TOKEN_URL.getUrl())
                 .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
                 .bodyValue(buildAccessTokenRequestBody(code))
                 .retrieve()
@@ -55,10 +55,9 @@ public class KakaoService {
         log.debug("[KakaoService.getUserInfo]");
 
         WebClient webClient = WebClient.builder().build();
-        String requestUrl = "https://kapi.kakao.com/v2/user/me";
 
         KakaoUserInfoResponse kakaoUserInfoResponse = webClient.get()
-                .uri(requestUrl)
+                .uri(URL.KAKAO_USER_INFO_URL.getUrl())
                 .headers(httpHeaders -> {
                     httpHeaders.set("Authorization", "Bearer " + accessToken);
                     httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
