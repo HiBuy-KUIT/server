@@ -1,11 +1,14 @@
 package hibuy.server.common.exception.notfound;
 
+import hibuy.server.common.exception.DatabaseException;
 import lombok.Getter;
 
+import static hibuy.server.common.response.status.BaseExceptionResponseStatus.*;
+
 @Getter
-public class NotFoundAddressException extends NotFoundException {
+public class NotFoundAddressException extends DatabaseException {
 
     public NotFoundAddressException() {
-        super("존재하지 않는 주소입니다", 1002);
+        super(ADDRESS_NOT_FOUND);
     }
 }
