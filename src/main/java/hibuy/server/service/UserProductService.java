@@ -2,6 +2,8 @@ package hibuy.server.service;
 
 import static hibuy.server.domain.Status.INACTIVE;
 
+import hibuy.server.common.exception.notfound.NotFoundUserException;
+import hibuy.server.common.exception.notfound.NotFoundUserProductException;
 import hibuy.server.domain.*;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
 import hibuy.server.dto.userProduct.DeleteUserProductResponse;
@@ -117,7 +119,8 @@ public class UserProductService {
     public PutUserProductRequest getUserProduct(Long userProductId) {
         log.debug("[UserProductService.getUserProduct]");
 
-        UserProduct userProduct = userProductRepository.findById(userProductId).orElseThrow();
+        UserProduct userProduct = userProductRepository.findById(userProductId)
+                .orElseThrow(NotFoundUserProductException::new);
         List<Integer> days = userProductDayRepository.findByUpId(userProductId);
         List<Time> times = userProductTimeRepository.findByUpId(userProductId);
 
@@ -132,7 +135,8 @@ public class UserProductService {
     public PutUserProductResponse updateUserProduct(PutUserProductRequest request) {
         log.debug("[UserProductService.updateUserProduct]");
 
-        UserProduct userProduct = userProductRepository.findById(request.getUserProductId()).orElseThrow();
+        UserProduct userProduct = userProductRepository.findById(request.getUserProductId())
+                .orElseThrow(NotFoundUserProductException::new);
         userProduct.updateUserProduct(request.getOneTakeAmount(), request.getTotalAmount(),
                 request.getNotification());
 
@@ -156,7 +160,7 @@ public class UserProductService {
         log.debug("[UserProductService.createUserProduct]");
 
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+                .orElseThrow(NotFoundUserException::new);
 
         UserProduct userProduct = new UserProduct(
                 request.getOneTakeAmount(),
