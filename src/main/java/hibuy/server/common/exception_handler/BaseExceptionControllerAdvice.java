@@ -1,6 +1,7 @@
 package hibuy.server.common.exception_handler;
 
 import hibuy.server.common.exception.FieldException;
+import hibuy.server.common.exception.notfound.*;
 import hibuy.server.common.response.BaseErrorResponse;
 import hibuy.server.common.response.RequestErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,41 @@ public class BaseExceptionControllerAdvice {
     public BaseErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("[handle_HttpMessageNotReadableException]", e);
         return new BaseErrorResponse(INVALID_JSON);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public BaseErrorResponse handleNotFoundUserException(NotFoundUserException e) {
+        log.error("[handle_NotFoundUserException]", e);
+        return new BaseErrorResponse(USER_NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public BaseErrorResponse handleNotFoundAddressException(NotFoundAddressException e) {
+        log.error("[handle_NotFoundAddressException]", e);
+        return new BaseErrorResponse(ADDRESS_NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public BaseErrorResponse handleNotFoundAddressException(NotFoundBoolTakeException e) {
+        log.error("[handle_NotFoundBoolTakeException]", e);
+        return new BaseErrorResponse(BOOL_TAKE_NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public BaseErrorResponse handleNotFoundDateCountException(NotFoundDateCountException e) {
+        log.error("[handle_NotFoundDateCountException]", e);
+        return new BaseErrorResponse(DATE_COUNT_NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public BaseErrorResponse handleUserProductNotFound(NotFoundUserProductException e) {
+        log.error("[handle_NotFoundUserProductException]", e);
+        return new BaseErrorResponse(USER_PRODUCT_NOT_FOUND);
     }
 
 }

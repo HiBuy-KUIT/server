@@ -1,11 +1,14 @@
 package hibuy.server.common.exception.notfound;
 
+import hibuy.server.common.exception.DatabaseException;
 import lombok.Getter;
 
+import static hibuy.server.common.response.status.BaseExceptionResponseStatus.*;
+
 @Getter
-public class NotFoundDateCountException extends NotFoundException{
+public class NotFoundDateCountException extends DatabaseException {
 
     public NotFoundDateCountException() {
-        super("해당 누적일수가 존재하지 않습니다.", 1004);
+        super(DATE_COUNT_NOT_FOUND);
     }
 }
