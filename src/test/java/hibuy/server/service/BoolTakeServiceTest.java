@@ -81,13 +81,13 @@ class BoolTakeServiceTest {
         userProductService.getHomeUserProducts(LocalDate.of(2024,1,30), user.getUserId());
 
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(
-                userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).getStatus()).isEqualTo(INACTIVE);
+                userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).get().getStatus()).isEqualTo(INACTIVE);
 
         PatchBoolTakeResponse response = boolTakeService.updateBoolTake(
                 patchBoolTakeRequest);
 
         //then
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(response.getUserProductId(),
-                Timestamp.valueOf(response.getTakeDateTime())).getStatus()).isEqualTo(ACTIVE);
+                Timestamp.valueOf(response.getTakeDateTime())).get().getStatus()).isEqualTo(ACTIVE);
     }
 }
