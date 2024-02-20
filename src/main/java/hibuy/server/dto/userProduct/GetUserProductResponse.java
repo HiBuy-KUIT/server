@@ -37,8 +37,10 @@ public class GetUserProductResponse {
 
     public List<String> toString(List<Integer> dayList) {
         List<String> result = new ArrayList<>();
-        for (Integer day : dayList) {
-            result.add(Day.getDayByValue(day).toString());
+        if (dayList != null) {
+            for (Integer day : dayList) {
+                result.add(Day.getDayByValue(day).toString());
+            }
         }
         return result;
     }
