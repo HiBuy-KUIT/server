@@ -21,7 +21,8 @@
 <img width="622" alt="스크린샷 2024-02-21 오후 3 39 08" src="https://github.com/HiBuy-KUIT/server/assets/57056933/891920b5-9d77-4ad5-848b-bbb4d86dc7a3">
 
 ## 🔨 Database Schema
-![범 (3)](https://github.com/HiBuy-KUIT/server/assets/57056933/bdf56bda-0155-4f7f-a0dc-d1a6b4463965)
+![범 (4)](https://github.com/HiBuy-KUIT/server/assets/57056933/4b535d67-ae0e-42d2-98ca-2c2c98d234be)
+
 
 ## 🙆‍♂️ Server Engineers
 |                                                                                                                                                                                                                                                JaeWook                                                                                                                                                                                                                                                 |                                                                                         Lisiant                                                                                          |                                                                                                                                                                                                                                                                  beomzun                                                                                                                                                                                                                                                                  |
