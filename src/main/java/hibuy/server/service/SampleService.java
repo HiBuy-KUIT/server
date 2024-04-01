@@ -21,10 +21,7 @@ public class SampleService {
 
         log.debug("[SampleService.addSample]");
 
-        Sample sample = new Sample(postSampleRequest.getProductName(),
-                postSampleRequest.getCompanyName(),
-                postSampleRequest.getImageUrl(),
-                postSampleRequest.getProductUrl());
+        Sample sample = postSampleRequest.toEntity();
 
         sampleRepository.save(sample);
 

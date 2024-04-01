@@ -1,5 +1,6 @@
 package hibuy.server.dto.sample;
 
+import hibuy.server.domain.Sample;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,5 +19,9 @@ public class PostSampleRequest {
 
     @URL
     private String productUrl;
+
+    public Sample toEntity() {
+        return Sample.of(productName, companyName, imageUrl, productUrl);
+    }
 
 }

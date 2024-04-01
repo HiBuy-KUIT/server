@@ -2,6 +2,7 @@ package hibuy.server.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,12 +29,22 @@ public class Sample extends BaseEntity{
     @Column(name = "product_url")
     private String productUrl;
 
-    public Sample(String productName, String companyName, String imageUrl, String productUrl) {
+    @Builder
+    private Sample(String productName, String companyName, String imageUrl, String productUrl) {
+        super();
         this.productName = productName;
         this.companyName = companyName;
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
-        this.status = Status.ACTIVE;
+    }
+
+    public static Sample of(String productName, String companyName, String imageUrl, String productUrl) {
+        return Sample.builder()
+                .productName(productName)
+                .companyName(companyName)
+                .imageUrl(imageUrl)
+                .productUrl(productUrl)
+                .build();
     }
 
 }
