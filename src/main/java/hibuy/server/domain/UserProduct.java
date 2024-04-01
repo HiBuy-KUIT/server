@@ -5,6 +5,7 @@ import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,18 +38,33 @@ public class UserProduct extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
-            User user, String companyName, String imageUrl) {
+    @Builder
+    private UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
+            User user, String companyName, String imageUrl, int takeCount) {
+        super();
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.notification = notification;
-        this.takeCount = 0;
+        this.takeCount = takeCount;
         this.productName = productName;
         this.user = user;
-        this.status = Status.ACTIVE;
         this.companyName = companyName;
         this.imageUrl = imageUrl;
+    }
+
+    public static UserProduct createUserProductWithZeroTakeCount(
+            int oneTakeAmount, int totalAmount, int notification, String productName,
+            User user, String companyName, String imageUrl) {
+        return UserProduct.builder()
+                .oneTakeAmount(oneTakeAmount)
+                .totalAmount(totalAmount)
+                .notification(notification)
+                .takeCount(0)
+                .productName(productName)
+                .user(user)
+                .companyName(companyName)
+                .imageUrl(imageUrl)
+                .build();
     }
 
     public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {

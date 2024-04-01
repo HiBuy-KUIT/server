@@ -1,5 +1,7 @@
 package hibuy.server.dto.userProduct;
 
+import hibuy.server.domain.User;
+import hibuy.server.domain.UserProduct;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -42,4 +44,8 @@ public class PostUserProductRequest {
     private String companyName;
 
     private String imageUrl;
+
+    public UserProduct toEntity(User user) {
+        return UserProduct.createUserProductWithZeroTakeCount(oneTakeAmount, totalAmount, notification, productName, user, companyName, imageUrl);
+    }
 }

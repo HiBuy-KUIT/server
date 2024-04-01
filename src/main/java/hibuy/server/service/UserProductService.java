@@ -163,15 +163,7 @@ public class UserProductService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(NotFoundUserException::new);
 
-        UserProduct userProduct = new UserProduct(
-                request.getOneTakeAmount(),
-                request.getTotalAmount(),
-                request.getNotification(),
-                request.getProductName(),
-                user,
-                request.getCompanyName(),
-                request.getImageUrl()
-        );
+        UserProduct userProduct = request.toEntity(user);
 
         userProductRepository.save(userProduct);
 
