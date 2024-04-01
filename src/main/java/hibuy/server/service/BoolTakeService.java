@@ -23,24 +23,15 @@ public class BoolTakeService {
     public PatchBoolTakeResponse updateBoolTake(PatchBoolTakeRequest request) {
         log.debug("[BoolTakeService.updateBoolTake]");
 
-        LocalDateTime localDateTime = getLocalDateTimeFromRequest(request);
+        LocalDateTime localDateTime = request.getLocalDateTimeFromRequest();
 
         BoolTake boolTake = boolTakeRepository.findByUserProductAndTakeDateTime(
-                request.getUserProductId(), getTimestampFromLocalDateTime(localDateTime))
+                request.getUserProductId(), Timestamp.valueOf(localDateTime))
                 .orElseThrow(NotFoundBoolTakeException::new);
 
         boolTake.updateBoolTake(request.getStatus());
 
-        return new PatchBoolTakeResponse(boolTake.getUserProduct().getId(), localDateTime);
-    }
-
-    private Timestamp getTimestampFromLocalDateTime(LocalDateTime localDateTime) {
-        return Timestamp.valueOf(localDateTime);
-    }
-
-    private LocalDateTime getLocalDateTimeFromRequest(PatchBoolTakeRequest request) {
-        return LocalDateTime.of(request.getTakeDate().toLocalDate(),
-                request.getTakeTime().toLocalTime());
+        return PatchBoolTakeResponse.of(boolTake, localDateTime);
     }
 
 }
