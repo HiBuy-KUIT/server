@@ -2,6 +2,7 @@ package hibuy.server.dto.booltake;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 import hibuy.server.domain.Status;
 import lombok.AllArgsConstructor;
@@ -15,5 +16,9 @@ public class PatchBoolTakeRequest {
     private Date takeDate;
     private Time takeTime;
     private Status status;
+
+    public LocalDateTime getLocalDateTimeFromRequest() {
+        return LocalDateTime.of(takeDate.toLocalDate(), takeTime.toLocalTime());
+    }
 
 }
