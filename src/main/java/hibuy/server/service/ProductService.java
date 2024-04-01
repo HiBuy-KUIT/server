@@ -20,17 +20,7 @@ public class ProductService {
     public PostProductResponse addProduct(PostProductRequest postProductRequest) {
         log.debug("[ProductService.addProduct]");
 
-        Product product = productRepository.save(
-                new Product(
-                        postProductRequest.getCompanyName(),
-                        postProductRequest.getProductName(),
-                        postProductRequest.getPrice(),
-                        postProductRequest.getImageUrl(),
-                        postProductRequest.getProductUrl(),
-                        postProductRequest.getCategory(),
-                        postProductRequest.getOneTakeAmount(),
-                        postProductRequest.getTotalAmount(),
-                        postProductRequest.getTakeCount()));
+        Product product = productRepository.save(postProductRequest.toEntity());
 
         return new PostProductResponse(product.getProductId());
 
@@ -52,14 +42,6 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(NotFoundProductException::new);
 
-        return new GetProductInfoResponse(
-                product.getProductName(),
-                product.getCompanyName(),
-                product.getPrice(),
-                product.getOneTakeAmount(),
-                product.getTotalAmount(),
-                product.getTakeCount(),
-                product.getImageUrl()
-        );
+        return GetProductInfoResponse.from(product);
     }
 }

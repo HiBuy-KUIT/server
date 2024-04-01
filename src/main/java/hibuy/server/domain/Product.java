@@ -1,10 +1,7 @@
 package hibuy.server.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -46,18 +43,34 @@ public class Product extends BaseEntity{
     @Column(name = "take_count")
     private int takeCount;
 
-    public Product(String companyName, String productName, int price, String imageUrl, String productUrl,
+    @Builder
+    private Product(String companyName, String productName, int price, String imageUrl, String productUrl,
                    String category, int oneTakeAmount, int totalAmount, int takeCount) {
+        super();
         this.companyName = companyName;
         this.productName = productName;
         this.price = price;
         this.imageUrl = imageUrl;
         this.productUrl = productUrl;
         this.category = category;
-        this.status = Status.ACTIVE;
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.takeCount = takeCount;
+    }
+
+    public static Product of(String companyName, String productName, int price, String imageUrl, String productUrl,
+                             String category, int oneTakeAmount, int totalAmount, int takeCount) {
+        return Product.builder()
+                .companyName(companyName)
+                .productName(productName)
+                .price(price)
+                .imageUrl(imageUrl)
+                .productUrl(productUrl)
+                .category(category)
+                .oneTakeAmount(oneTakeAmount)
+                .totalAmount(totalAmount)
+                .takeCount(takeCount)
+                .build();
     }
 
 }

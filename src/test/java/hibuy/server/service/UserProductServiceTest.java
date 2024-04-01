@@ -3,6 +3,7 @@ package hibuy.server.service;
 import static hibuy.server.domain.Status.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import hibuy.server.controller.LoginController;
 import hibuy.server.domain.Product;
 import hibuy.server.domain.User;
 import hibuy.server.dto.userProduct.DailyUserProductDto;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -33,6 +35,9 @@ class UserProductServiceTest {
     @Autowired UserProductRepository userProductRepository;
     @Autowired BoolTakeRepository boolTakeRepository;
 
+    @MockBean LoginController loginController;
+    @MockBean KakaoService kakaoService;
+
     private User user;
     private Product product;
     private List<Time> timeList;
@@ -43,7 +48,7 @@ class UserProductServiceTest {
     public void setUp() {
         user = new User("bzun", "email_bzun", "1111");
         userRepository.save(user);
-        product = new Product("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
+        product = Product.of("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
                 100, 0);
         productRepository.save(product);
 

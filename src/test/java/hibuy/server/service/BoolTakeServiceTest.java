@@ -4,6 +4,7 @@ import static hibuy.server.domain.Status.ACTIVE;
 import static hibuy.server.domain.Status.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import hibuy.server.controller.LoginController;
 import hibuy.server.domain.Product;
 import hibuy.server.domain.User;
 import hibuy.server.dto.booltake.PatchBoolTakeRequest;
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -42,6 +44,10 @@ class BoolTakeServiceTest {
     @Autowired
     BoolTakeRepository boolTakeRepository;
 
+    @MockBean
+    LoginController loginController;
+    @MockBean KakaoService kakaoService;
+
     private User user;
     private Product product;
     private List<Time> timeList;
@@ -53,8 +59,9 @@ class BoolTakeServiceTest {
         user = new User("bzun", "email_bzun", "1111");
         userRepository.save(user);
 
-        product = new Product("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
-                100, 0);        productRepository.save(product);
+        product = Product.of("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
+                100, 0);
+        productRepository.save(product);
 
         timeList = new ArrayList<>();
         timeList.add(Time.valueOf("09:30:00"));
