@@ -36,17 +36,7 @@ public class AddressService {
             disablePrevDefaultAddress(request.getUserId());
         }
 
-        Address address = addressRepository.save(new Address(
-                request.getAddressName(),
-                request.getReceiver(),
-                request.getPhoneNumber(),
-                request.getZipCode(),
-                request.getBasicAddress(),
-                request.getDetailAddress(),
-                request.getDefaultAddress(),
-                request.getRequest(),
-                user
-        ));
+        Address address = addressRepository.save(request.toEntity(user));
 
         return new PostAddressResponse(address.getId());
 

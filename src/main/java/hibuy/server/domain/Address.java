@@ -2,11 +2,7 @@ package hibuy.server.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
 @Entity
 @Getter
@@ -46,7 +42,9 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Address(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean defaultAddress, String request, User user) {
+    @Builder
+    private Address(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean defaultAddress, String request, User user) {
+        super();
         this.addressName = addressName;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
@@ -56,7 +54,20 @@ public class Address extends BaseEntity {
         this.defaultAddress = defaultAddress;
         this.request = request;
         this.user = user;
-        this.status = Status.ACTIVE;
+    }
+
+    public static Address of(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean defaultAddress, String request, User user) {
+        return Address.builder()
+                .addressName(addressName)
+                .receiver(receiver)
+                .phoneNumber(phoneNumber)
+                .zipCode(zipCode)
+                .basicAddress(basicAddress)
+                .detailAddress(detailAddress)
+                .defaultAddress(defaultAddress)
+                .request(request)
+                .user(user)
+                .build();
     }
 
     public void updateAddress(Boolean isDefaultAddress, String request) {

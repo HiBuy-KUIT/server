@@ -1,6 +1,7 @@
 package hibuy.server.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,4 +25,7 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     protected Timestamp updatedAt;
 
+    protected BaseEntity() {
+        this.status = Status.ACTIVE;
+    }
 }
