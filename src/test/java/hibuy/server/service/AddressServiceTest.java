@@ -11,7 +11,6 @@ import hibuy.server.repository.AddressRepository;
 import hibuy.server.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,7 +40,7 @@ class AddressServiceTest {
         user = new User(1L, "jangwoo", "jangwoopark@naver.com", "01012345678");
         userRepository.save(user);
 
-        address = Address.of("장우네 집", "박장우", "01012345678", "01234", "기본주소", "상세주소", true, "요청사항", user);
+        address = createAddress("장우네 집", true);
 
         addressRepository.save(address);
 
@@ -74,7 +73,7 @@ class AddressServiceTest {
     void 기본_배송지_수정() {
 
         //given
-        Address address2 = Address.of("Address2", "박장우", "01012345678", "01234", "기본주소", "상세주소", false, "요청사항", user);
+        Address address2 = createAddress("Address2", false);
         addressRepository.save(address2);
 
         // 기존에 존재하는 address를 해제하고, address2를 기본 배송지로 수정하는 요청
@@ -87,6 +86,20 @@ class AddressServiceTest {
         //then
         assertThat(address2).isEqualTo(defaultAddress);
 
+    }
+
+    private Address createAddress(String addressName, boolean defaultAddress) {
+        return Address.builder()
+                .addressName(addressName)
+                .receiver("박장우")
+                .phoneNumber("01012345678")
+                .zipCode("01234")
+                .basicAddress("기본주소")
+                .detailAddress("상세주소")
+                .defaultAddress(defaultAddress)
+                .request("요청사항")
+                .user(user)
+                .build();
     }
 
 

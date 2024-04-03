@@ -37,8 +37,17 @@ public class PostAddressRequest {
     private Long userId;
 
     public Address toEntity(User user) {
-        return Address.of(addressName, receiver, phoneNumber, zipCode, basicAddress,
-                detailAddress, defaultAddress, request, user);
+        return Address.builder()
+                .addressName(addressName)
+                .receiver(receiver)
+                .phoneNumber(phoneNumber)
+                .zipCode(zipCode)
+                .basicAddress(basicAddress)
+                .detailAddress(detailAddress)
+                .defaultAddress(defaultAddress)
+                .request(request)
+                .user(user)
+                .build();
     }
 
 }

@@ -15,12 +15,14 @@ import hibuy.server.repository.BoolTakeRepository;
 import hibuy.server.repository.ProductRepository;
 import hibuy.server.repository.UserProductRepository;
 import hibuy.server.repository.UserRepository;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,8 @@ class BoolTakeServiceTest {
     UserRepository userRepository;
     @Autowired
     ProductRepository productRepository;
-    @Autowired UserProductService userProductService;
+    @Autowired
+    UserProductService userProductService;
     @Autowired
     UserProductRepository userProductRepository;
     @Autowired
@@ -46,7 +49,8 @@ class BoolTakeServiceTest {
 
     @MockBean
     LoginController loginController;
-    @MockBean KakaoService kakaoService;
+    @MockBean
+    KakaoService kakaoService;
 
     private User user;
     private Product product;
@@ -59,8 +63,18 @@ class BoolTakeServiceTest {
         user = new User("bzun", "email_bzun", "1111");
         userRepository.save(user);
 
-        product = Product.of("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
-                100, 0);
+        Product product = Product.builder()
+                .companyName("company")
+                .productName("product")
+                .price(30000)
+                .imageUrl("imageUrl")
+                .productUrl("productUrl")
+                .category("lactofit")
+                .oneTakeAmount(2)
+                .totalAmount(100)
+                .takeCount(0)
+                .build();
+
         productRepository.save(product);
 
         timeList = new ArrayList<>();
@@ -75,6 +89,7 @@ class BoolTakeServiceTest {
                 user.getUserId(), "종근당", "imageUrl");
 
     }
+
     @Test
     public void updateBoolTake() {
         //given
@@ -85,7 +100,7 @@ class BoolTakeServiceTest {
                 Time.valueOf("09:30:00"), ACTIVE);
 
         //when
-        userProductService.getHomeUserProducts(LocalDate.of(2024,1,30), user.getUserId());
+        userProductService.getHomeUserProducts(LocalDate.of(2024, 1, 30), user.getUserId());
 
         assertThat(boolTakeRepository.findByUserProductAndTakeDateTime(
                 userProduct.getUserProductId(), Timestamp.valueOf("2024-01-30 09:30:00")).get().getStatus()).isEqualTo(INACTIVE);

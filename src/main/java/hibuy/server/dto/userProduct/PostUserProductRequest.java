@@ -46,6 +46,15 @@ public class PostUserProductRequest {
     private String imageUrl;
 
     public UserProduct toEntity(User user) {
-        return UserProduct.createUserProductWithZeroTakeCount(oneTakeAmount, totalAmount, notification, productName, user, companyName, imageUrl);
+        return UserProduct.builder()
+                .oneTakeAmount(oneTakeAmount)
+                .totalAmount(totalAmount)
+                .notification(notification)
+                .takeCount(0)
+                .productName(productName)
+                .user(user)
+                .companyName(companyName)
+                .imageUrl(imageUrl)
+                .build();
     }
 }

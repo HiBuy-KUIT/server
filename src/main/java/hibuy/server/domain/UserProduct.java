@@ -52,26 +52,12 @@ public class UserProduct extends BaseEntity{
         this.imageUrl = imageUrl;
     }
 
-    public static UserProduct createUserProductWithZeroTakeCount(
-            int oneTakeAmount, int totalAmount, int notification, String productName,
-            User user, String companyName, String imageUrl) {
-        return UserProduct.builder()
-                .oneTakeAmount(oneTakeAmount)
-                .totalAmount(totalAmount)
-                .notification(notification)
-                .takeCount(0)
-                .productName(productName)
-                .user(user)
-                .companyName(companyName)
-                .imageUrl(imageUrl)
-                .build();
-    }
-
     public void updateUserProduct(int oneTakeAmount, int totalAmount, int notification) {
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.notification = notification;
     }
+
 }
 
 

@@ -48,8 +48,17 @@ class UserProductServiceTest {
     public void setUp() {
         user = new User("bzun", "email_bzun", "1111");
         userRepository.save(user);
-        product = Product.of("company", "product", 30000, "imageUrl", "productUrl", "lactofit", 2,
-                100, 0);
+        product = Product.builder()
+                .companyName("company")
+                .productName("product")
+                .price(30000)
+                .imageUrl("imageUrl")
+                .productUrl("productUrl")
+                .category("lactofit")
+                .oneTakeAmount(2)
+                .totalAmount(100)
+                .takeCount(0)
+                .build();
         productRepository.save(product);
 
         timeList = new ArrayList<>();

@@ -32,8 +32,17 @@ public class PostProductRequest {
     private int takeCount;
 
     public Product toEntity() {
-        return Product.of(companyName, productName, price, imageUrl, productUrl,
-                category, oneTakeAmount, totalAmount, takeCount);
+        return Product.builder()
+                .companyName(companyName)
+                .productName(productName)
+                .price(price)
+                .imageUrl(imageUrl)
+                .productUrl(productUrl)
+                .category(category)
+                .oneTakeAmount(oneTakeAmount)
+                .totalAmount(totalAmount)
+                .takeCount(takeCount)
+                .build();
     }
 
 }

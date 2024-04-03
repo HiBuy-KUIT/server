@@ -56,20 +56,6 @@ public class Address extends BaseEntity {
         this.user = user;
     }
 
-    public static Address of(String addressName, String receiver, String phoneNumber, String zipCode, String basicAddress, String detailAddress, Boolean defaultAddress, String request, User user) {
-        return Address.builder()
-                .addressName(addressName)
-                .receiver(receiver)
-                .phoneNumber(phoneNumber)
-                .zipCode(zipCode)
-                .basicAddress(basicAddress)
-                .detailAddress(detailAddress)
-                .defaultAddress(defaultAddress)
-                .request(request)
-                .user(user)
-                .build();
-    }
-
     public void updateAddress(Boolean isDefaultAddress, String request) {
         this.defaultAddress = isDefaultAddress;
         this.request = request;

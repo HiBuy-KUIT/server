@@ -58,19 +58,4 @@ public class Product extends BaseEntity{
         this.takeCount = takeCount;
     }
 
-    public static Product of(String companyName, String productName, int price, String imageUrl, String productUrl,
-                             String category, int oneTakeAmount, int totalAmount, int takeCount) {
-        return Product.builder()
-                .companyName(companyName)
-                .productName(productName)
-                .price(price)
-                .imageUrl(imageUrl)
-                .productUrl(productUrl)
-                .category(category)
-                .oneTakeAmount(oneTakeAmount)
-                .totalAmount(totalAmount)
-                .takeCount(takeCount)
-                .build();
-    }
-
 }

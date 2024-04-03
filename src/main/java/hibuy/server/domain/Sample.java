@@ -38,13 +38,4 @@ public class Sample extends BaseEntity{
         this.productUrl = productUrl;
     }
 
-    public static Sample of(String productName, String companyName, String imageUrl, String productUrl) {
-        return Sample.builder()
-                .productName(productName)
-                .companyName(companyName)
-                .imageUrl(imageUrl)
-                .productUrl(productUrl)
-                .build();
-    }
-
 }

@@ -21,7 +21,12 @@ public class PostSampleRequest {
     private String productUrl;
 
     public Sample toEntity() {
-        return Sample.of(productName, companyName, imageUrl, productUrl);
+        return Sample.builder()
+                .productName(productName)
+                .companyName(companyName)
+                .imageUrl(imageUrl)
+                .productUrl(productUrl)
+                .build();
     }
 
 }
