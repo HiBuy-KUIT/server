@@ -60,7 +60,7 @@ class BoolTakeServiceTest {
 
     @BeforeEach
     public void setUp() {
-        user = new User("bzun", "email_bzun", "1111");
+        user = new User(123L, "bzun", "email_bzun", "1111");
         userRepository.save(user);
 
         Product product = Product.builder()
