@@ -5,6 +5,7 @@ import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,7 +13,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
 public class UserProduct extends BaseEntity{
 
     @Id
@@ -38,16 +38,16 @@ public class UserProduct extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    public UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
-            User user, String companyName, String imageUrl) {
+    @Builder
+    private UserProduct(int oneTakeAmount, int totalAmount, int notification, String productName,
+            User user, String companyName, String imageUrl, int takeCount) {
+        super();
         this.oneTakeAmount = oneTakeAmount;
         this.totalAmount = totalAmount;
         this.notification = notification;
-        this.takeCount = 0;
+        this.takeCount = takeCount;
         this.productName = productName;
         this.user = user;
-        this.status = Status.ACTIVE;
         this.companyName = companyName;
         this.imageUrl = imageUrl;
     }
@@ -57,6 +57,7 @@ public class UserProduct extends BaseEntity{
         this.totalAmount = totalAmount;
         this.notification = notification;
     }
+
 }
 
 

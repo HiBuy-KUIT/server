@@ -1,6 +1,7 @@
 package hibuy.server.dto.product;
 
 
+import hibuy.server.domain.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,5 +30,19 @@ public class PostProductRequest {
     private int totalAmount;
 
     private int takeCount;
+
+    public Product toEntity() {
+        return Product.builder()
+                .companyName(companyName)
+                .productName(productName)
+                .price(price)
+                .imageUrl(imageUrl)
+                .productUrl(productUrl)
+                .category(category)
+                .oneTakeAmount(oneTakeAmount)
+                .totalAmount(totalAmount)
+                .takeCount(takeCount)
+                .build();
+    }
 
 }

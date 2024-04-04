@@ -1,17 +1,17 @@
 package hibuy.server.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 
 @MappedSuperclass
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
     @Enumerated(EnumType.STRING)
@@ -25,4 +25,7 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     protected Timestamp updatedAt;
 
+    protected BaseEntity() {
+        this.status = Status.ACTIVE;
+    }
 }

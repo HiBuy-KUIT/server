@@ -1,14 +1,14 @@
 package hibuy.server.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity{
 
     @Id
@@ -26,13 +26,6 @@ public class User extends BaseEntity{
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-
-    public User(String name, String email, String phoneNumber) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.status = Status.ACTIVE;
-    }
 
     public User(Long kakaoUserId, String name, String email, String phoneNumber) {
         this.kakaoUserId = kakaoUserId;

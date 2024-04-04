@@ -5,14 +5,15 @@ import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoolTake extends BaseEntity{
 
     @Id

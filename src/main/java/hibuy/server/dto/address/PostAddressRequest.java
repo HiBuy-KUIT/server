@@ -1,5 +1,7 @@
 package hibuy.server.dto.address;
 
+import hibuy.server.domain.Address;
+import hibuy.server.domain.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -33,5 +35,19 @@ public class PostAddressRequest {
     private String request;
 
     private Long userId;
+
+    public Address toEntity(User user) {
+        return Address.builder()
+                .addressName(addressName)
+                .receiver(receiver)
+                .phoneNumber(phoneNumber)
+                .zipCode(zipCode)
+                .basicAddress(basicAddress)
+                .detailAddress(detailAddress)
+                .defaultAddress(defaultAddress)
+                .request(request)
+                .user(user)
+                .build();
+    }
 
 }

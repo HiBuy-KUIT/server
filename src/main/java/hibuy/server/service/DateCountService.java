@@ -22,7 +22,8 @@ public class DateCountService {
 
         DateCount dateCount = dateCountRepository.findDateCountByUserId(userId)
                 .orElseThrow(NotFoundDateCountException::new);
-        return new GetDateCountResponse(dateCount.getUser().getUserId(), dateCount.getDateCount());
+
+        return GetDateCountResponse.of(dateCount);
 
     }
 
