@@ -1,10 +1,11 @@
 package hibuy.server.dto.oauth2;
 
+import hibuy.server.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class KakaoUserInfoResponse {
 
     private Long id;
@@ -17,16 +18,13 @@ public class KakaoUserInfoResponse {
         private String phone_number;
     }
 
-    public String getUsername() {
-        return this.getKakao_account().getName();
-    }
-
-    public String getUserEmail() {
-        return this.getKakao_account().getEmail();
-    }
-
-    public String getUserPhoneNumber() {
-        return this.getKakao_account().getPhone_number();
+    public User toEntity() {
+        return User.builder()
+                .kakaoUserId(id)
+                .name(kakao_account.name)
+                .email(kakao_account.email)
+                .phoneNumber(kakao_account.phone_number)
+                .build();
     }
 
 }
