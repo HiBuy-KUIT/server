@@ -2,6 +2,7 @@ package hibuy.server.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,11 +28,12 @@ public class User extends BaseEntity{
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    public User(Long kakaoUserId, String name, String email, String phoneNumber) {
+    @Builder
+    private User(Long kakaoUserId, String name, String email, String phoneNumber) {
+        super();
         this.kakaoUserId = kakaoUserId;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.status = Status.ACTIVE;
     }
 }
