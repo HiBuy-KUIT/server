@@ -35,9 +35,6 @@ class UserProductServiceTest {
     @Autowired UserProductRepository userProductRepository;
     @Autowired BoolTakeRepository boolTakeRepository;
 
-    @MockBean LoginController loginController;
-    @MockBean KakaoService kakaoService;
-
     private User user;
     private Product product;
     private List<Time> timeList;
@@ -46,7 +43,12 @@ class UserProductServiceTest {
 
     @BeforeEach
     public void setUp() {
-        user = new User(123L,"bzun", "email_bzun", "1111");
+        user = User.builder()
+                .kakaoUserId(123L)
+                .name("bzun")
+                .email("email_bzun")
+                .phoneNumber("1111")
+                .build();
         userRepository.save(user);
         product = Product.builder()
                 .companyName("company")
