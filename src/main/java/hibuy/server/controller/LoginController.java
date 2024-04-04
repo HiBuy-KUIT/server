@@ -19,9 +19,6 @@ public class LoginController {
 
     private final KakaoService kakaoService;
 
-    @Value("${kakao.oauth2.client_id}") private String clientId;
-    @Value("${kakao.oauth2.redirect_uri}") private String redirectUri;
-
     @GetMapping("/oauth2/code/kakao")
     public BaseResponse<LoginResponse> requestKakaoLogin(@RequestParam String code) {
 
