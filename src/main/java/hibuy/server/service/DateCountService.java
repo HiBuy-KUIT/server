@@ -28,14 +28,13 @@ public class DateCountService {
     }
 
     @Transactional
-    public void updateUserDateCount(Long userId) {
+    public int updateUserDateCount(Long userId) {
 
         log.debug("[PatchDateCountResponse.updateUserDateCount]");
 
         DateCount dateCount = dateCountRepository.findDateCountByUserId(userId)
                 .orElseThrow(NotFoundDateCountException::new);
 
-        dateCount.increaseDateCount();
-
+        return dateCount.increaseDateCount();
     }
 }

@@ -29,10 +29,11 @@ public class DateCount extends BaseEntity {
         this.status = Status.ACTIVE;
     }
 
-    public void increaseDateCount() {
+    public int increaseDateCount() {
         this.dateCount += 1;
         if(this.dateCount == 151) {
             this.dateCount = 1;
         }
+        return this.dateCount;
     }
 }

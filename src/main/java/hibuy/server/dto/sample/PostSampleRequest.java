@@ -1,6 +1,7 @@
 package hibuy.server.dto.sample;
 
 import hibuy.server.domain.Sample;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostSampleRequest {
 
     private String productName;

@@ -17,14 +17,15 @@ public class SampleService {
 
     private final SampleRepository sampleRepository;
 
-    public void addSample(PostSampleRequest postSampleRequest) {
+    public Long addSample(PostSampleRequest postSampleRequest) {
 
         log.debug("[SampleService.addSample]");
 
         Sample sample = postSampleRequest.toEntity();
 
-        sampleRepository.save(sample);
+        Sample save = sampleRepository.save(sample);
 
+        return save.getSampleId();
     }
 
     public List<GetSampleResponse> getSamples() {
@@ -33,6 +34,5 @@ public class SampleService {
 
         return sampleRepository.findAll().stream()
                 .map(GetSampleResponse::new).toList();
-
     }
 }
