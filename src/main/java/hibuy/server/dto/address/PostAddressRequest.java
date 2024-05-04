@@ -5,10 +5,12 @@ import hibuy.server.domain.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@Builder
 public class PostAddressRequest {
 
     public static final String PHONE_NUMBER_REGEX = "^010\\d{8}$";
