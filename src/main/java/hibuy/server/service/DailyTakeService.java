@@ -42,7 +42,7 @@ public class DailyTakeService {
         User user = userRepository.findById(userId)
                 .orElseThrow(NotFoundUserException::new);
 
-        Optional<DailyTake> dailyTakeOptional = dailyTakeRepository.findTakeDatesByUserIdAAndTakeDate(userId, date);
+        Optional<DailyTake> dailyTakeOptional = dailyTakeRepository.findDailyTakeByUserIdAAndTakeDate(userId, date);
 
         if(dailyTakeOptional.isEmpty()) {
             dailyTakeRepository.save(new DailyTake(date, user));

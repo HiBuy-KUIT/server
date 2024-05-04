@@ -1,5 +1,6 @@
 package hibuy.server.service;
 
+import hibuy.server.common.config.properties.KakaoProperties;
 import hibuy.server.common.http.RequestBody;
 import hibuy.server.domain.DateCount;
 import hibuy.server.domain.User;
@@ -29,13 +30,7 @@ public class KakaoService {
 
     private final UserRepository userRepository;
     private final DateCountRepository dateCountRepository;
-
-    @Value("${kakao.oauth2.client_id}")
-    private String clientId;
-    @Value("${kakao.oauth2.redirect_uri}")
-    private String redirectUri;
-    @Value("${kakao.oauth2.client_secret}")
-    private String clientSecret;
+    private final KakaoProperties kakaoProperties;
 
     public String getAccessToken(String code) {
 
@@ -95,19 +90,15 @@ public class KakaoService {
     private MultiValueMap<String, String> buildAccessTokenRequestBody(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add(GRANT_TYPE.getName(), AUTHORIZATION_CODE.getName());
-        params.add(CLIENT_ID.getName(), clientId);
-        params.add(CLIENT_SECRET.getName(), clientSecret);
-        params.add(REDIRECT_URI.getName(), redirectUri);
+        params.add(CLIENT_ID.getName(), kakaoProperties.getOauth2().clientId());
+        params.add(CLIENT_SECRET.getName(), kakaoProperties.getOauth2().clientSecret());
+        params.add(REDIRECT_URI.getName(), kakaoProperties.getOauth2().redirectUri());
         params.add(CODE.getName(), code);
         return params;
     }
 
     private Long saveUserAndDateCount(KakaoUserInfoResponse kakaoUserInfoResponse) {
-        User savedUser = userRepository.save(new User(
-                kakaoUserInfoResponse.getId(),
-                kakaoUserInfoResponse.getUsername(),
-                kakaoUserInfoResponse.getUserEmail(),
-                kakaoUserInfoResponse.getUserPhoneNumber()));
+        User savedUser = userRepository.save(kakaoUserInfoResponse.toEntity());
 
         dateCountRepository.save(new DateCount(savedUser));
         return savedUser.getUserId();

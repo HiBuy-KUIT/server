@@ -1,12 +1,10 @@
 package hibuy.server.repository;
 
 import hibuy.server.domain.DailyTake;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.swing.text.html.Option;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +16,5 @@ public interface DailyTakeRepository extends JpaRepository<DailyTake, Long> {
 
     @Query("SELECT dt FROM DailyTake dt JOIN dt.user u " +
             "WHERE u.userId = :userId AND u.status = 'ACTIVE' AND dt.takeDate = :takeDate")
-    Optional<DailyTake> findTakeDatesByUserIdAAndTakeDate(@Param("userId") Long userId, @Param("takeDate") Date takeDate);
+    Optional<DailyTake> findDailyTakeByUserIdAAndTakeDate(@Param("userId") Long userId, @Param("takeDate") Date takeDate);
 }

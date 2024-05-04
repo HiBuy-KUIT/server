@@ -28,8 +28,6 @@ class AddressServiceTest {
     AddressRepository addressRepository;
     @Autowired
     AddressService addressService;
-    @MockBean KakaoService kakaoService;
-    @MockBean LoginController loginController;
 
     private User user;
     private Address address;
@@ -37,7 +35,12 @@ class AddressServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "jangwoo", "jangwoopark@naver.com", "01012345678");
+        user = User.builder()
+                .kakaoUserId(1L)
+                .name("jangwoo")
+                .email("jangwoopark@naver.com")
+                .phoneNumber("01012345678")
+                .build();
         userRepository.save(user);
 
         address = createAddress("장우네 집", true);

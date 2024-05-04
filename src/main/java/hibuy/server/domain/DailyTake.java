@@ -26,9 +26,9 @@ public class DailyTake extends BaseEntity{
     private User user;
 
     public DailyTake(Date takeDate, User user) {
+        super();
         this.takeDate = takeDate;
         this.user = user;
-        this.status = Status.ACTIVE;
     }
 
     public boolean isStatusInactive() {
